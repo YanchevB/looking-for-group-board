@@ -4,6 +4,7 @@ import Header from './layout/Header'
 import HomePage from './pages/HomePage'
 import CatalogPage from './pages/CatalogPage'
 import SessionDetailPage from './pages/SessionDetailPage'
+import CreateSessionPage from './pages/CreateSessionPage'
 
 function App() {
 
