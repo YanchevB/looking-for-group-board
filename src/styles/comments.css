@@ -1,0 +1,128 @@
+/* ==========================================================================
+   COMMENTS.CSS
+   Comment list and the add-comment form shown at the bottom of the
+   session details page.
+   ========================================================================== */
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.comments__title {
+  font-size: var(--fs-base);
+  font-weight: 700;
+}
+
+.comments__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.comment {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.comment__avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: var(--color-bg-elevated-2);
+  border: 1px solid var(--color-border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  flex-shrink: 0;
+}
+
+.comment__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.comment__header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.comment__author {
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  color: var(--color-text);
+}
+
+.comment__time {
+  font-size: var(--fs-sm);
+  color: var(--color-text-faint);
+}
+
+.comment__text {
+  color: var(--color-text-muted);
+  font-size: var(--fs-base);
+}
+
+.comment__footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Delete button variant shown only on the current user's own comments */
+.comment__delete {
+  font-size: var(--fs-sm);
+  color: var(--color-text-faint);
+  background: none;
+  border: none;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.comment__delete:hover {
+  color: var(--color-danger);
+  background-color: var(--color-danger-bg);
+}
+
+/* Add-comment form */
+.comments__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+}
+
+.comments__form-row {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+
+.comments__form-row .form__textarea {
+  min-height: 3rem;
+}
+
+/* Prompt shown instead of the form when a guest is viewing */
+.comments__login-prompt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: var(--color-bg-elevated-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+}
