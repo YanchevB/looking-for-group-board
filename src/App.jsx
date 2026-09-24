@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import Footer from './layout/Footer'
+import Header from './layout/Header'
 
 function App() {
 
   return (
     <>
-      <h1>Hello world</h1>
+
     </>
   )
 }

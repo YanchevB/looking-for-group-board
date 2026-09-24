@@ -1,3 +1,5 @@
+import '../styles/header.css';
+
 export default function Header() {
     // TODO: branch on auth state once useAuth()/AuthContext exists.
     // Logged-in variant (from home.html reference block):
