@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LFG Board — My Sessions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/header.css">
+<link rel="stylesheet" href="../css/footer.css">
+<link rel="stylesheet" href="../css/button.css">
+<link rel="stylesheet" href="../css/session-card.css">
+<link rel="stylesheet" href="../css/status-badge.css">
+<link rel="stylesheet" href="../css/feedback.css">
+</head>
+<body>
+
+  <!-- ================= HEADER STATE: LOGGED IN ================= -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="home.html" class="site-header__brand">
+        <span class="site-header__brand-mark">LFG</span>
+        LFG Board
+      </a>
+      <nav class="site-header__nav" aria-label="Main navigation">
+        <a href="home.html" class="site-header__link">Home</a>
+        <a href="catalog.html" class="site-header__link">Catalog</a>
+        <a href="create.html" class="site-header__link">Create</a>
+        <a href="my-sessions.html" class="site-header__link site-header__link--active">My Sessions</a>
+      </nav>
+      <div class="site-header__actions">
+        <span class="site-header__user">
+          <span class="site-header__avatar">DK</span>
+          DarkKnight92
+        </span>
+        <button type="button" class="btn btn--ghost btn--sm">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <div class="container">
+
+      <h1 style="margin-bottom: var(--space-6);">My sessions</h1>
+
+      <!-- ================= SECTION: HOSTING ================= -->
+      <section class="section">
+        <div class="section__heading">
+          <h2>Hosting</h2>
+          <a href="create.html" class="btn btn--primary btn--sm">Host a session</a>
+        </div>
+
+        <div class="session-grid">
+          <article class="session-card">
+            <div class="session-card__header">
+              <div>
+                <div class="session-card__game">Elden Ring</div>
+                <div class="session-card__platform">PS5</div>
+              </div>
+              <span class="status-badge status-badge--open"><span class="status-badge__dot"></span>Open</span>
+            </div>
+            <div class="session-card__meta">
+              <span class="session-card__meta-item"><span class="session-card__slots">1 / 2</span> players</span>
+              <span class="session-card__meta-item"><span class="session-card__mic-icon" aria-hidden="true">🎙️</span> Mic required</span>
+            </div>
+            <p class="session-card__description">Looking for a co-op partner to clear the DLC bosses.</p>
+            <div class="session-card__footer">
+              <span class="session-card__host">You're hosting</span>
+              <a href="details.html" class="btn btn--secondary btn--sm">Manage</a>
+            </div>
+          </article>
+
+          <article class="session-card session-card--closed">
+            <div class="session-card__header">
+              <div>
+                <div class="session-card__game">Apex Legends</div>
+                <div class="session-card__platform">PC</div>
+              </div>
+              <span class="status-badge status-badge--closed"><span class="status-badge__dot"></span>Closed</span>
+            </div>
+            <div class="session-card__meta">
+              <span class="session-card__meta-item"><span class="session-card__slots">3 / 3</span> players</span>
+              <span class="session-card__meta-item"><span class="session-card__mic-icon" aria-hidden="true">🎙️</span> Mic required</span>
+            </div>
+            <p class="session-card__description">Ranked squad, already in-game — closed to keep the lobby tidy.</p>
+            <div class="session-card__footer">
+              <span class="session-card__host">You're hosting</span>
+              <a href="details.html" class="btn btn--secondary btn--sm">Manage</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ================= SECTION: JOINED ================= -->
+      <section class="section">
+        <div class="section__heading">
+          <h2>Joined</h2>
+        </div>
+
+        <div class="session-grid">
+          <article class="session-card">
+            <div class="session-card__header">
+              <div>
+                <div class="session-card__game">Valorant</div>
+                <div class="session-card__platform">PC</div>
+              </div>
+              <span class="status-badge status-badge--open"><span class="status-badge__dot"></span>Open</span>
+            </div>
+            <div class="session-card__meta">
+              <span class="session-card__meta-item"><span class="session-card__slots">2 / 5</span> players</span>
+              <span class="session-card__meta-item"><span class="session-card__mic-icon" aria-hidden="true">🎙️</span> Mic required</span>
+            </div>
+            <p class="session-card__description">Ranked grind, need a duo who can play Sentinel.</p>
+            <div class="session-card__footer">
+              <span class="session-card__host">Host: <span class="session-card__host-name">Vantage_</span></span>
+              <a href="details.html" class="btn btn--secondary btn--sm">View</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ================= STATE: EMPTY (JOINED) ================= -->
+      <div class="mockup-note">"Joined" section — empty state</div>
+      <section class="section">
+        <div class="section__heading">
+          <h2>Joined</h2>
+        </div>
+        <div class="empty-state">
+          <span class="empty-state__icon" aria-hidden="true">🕹️</span>
+          <div class="empty-state__title">You haven't joined any sessions yet</div>
+          <p class="empty-state__text">Browse the catalog to find a group to play with.</p>
+          <a href="catalog.html" class="btn btn--primary btn--sm">Browse sessions</a>
+        </div>
+      </section>
+
+      <!-- ================= STATE: LOADING ================= -->
+      <div class="mockup-note">My Sessions — loading state</div>
+      <section class="section surface">
+        <div class="loading-state">
+          <div class="spinner" role="status" aria-label="Loading your sessions"></div>
+          <p>Loading your sessions…</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__text">&copy; 2026 LFG Board — a SoftUni course project.</p>
+      <!--
+      <div class="site-footer__links">
+        <a href="catalog.html" class="site-footer__link">Catalog</a>
+        <a href="create.html" class="site-footer__link">Create</a>
+      </div>
+      -->
+    </div>
+  </footer>
+
+</body>
+</html>

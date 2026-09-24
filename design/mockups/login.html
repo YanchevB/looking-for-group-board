@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LFG Board — Log In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/header.css">
+<link rel="stylesheet" href="../css/footer.css">
+<link rel="stylesheet" href="../css/button.css">
+<link rel="stylesheet" href="../css/form.css">
+</head>
+<body>
+
+  <!-- ================= HEADER STATE: GUEST ================= -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="home.html" class="site-header__brand">
+        <span class="site-header__brand-mark">LFG</span>
+        LFG Board
+      </a>
+      <nav class="site-header__nav" aria-label="Main navigation">
+        <a href="home.html" class="site-header__link">Home</a>
+        <a href="catalog.html" class="site-header__link">Catalog</a>
+      </nav>
+      <div class="site-header__actions">
+        <a href="login.html" class="btn btn--ghost btn--sm site-header__link--active">Log in</a>
+        <a href="register.html" class="btn btn--primary btn--sm">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <div class="container" style="max-width: 420px;">
+
+      <!-- ================= STATE: CLEAN FORM ================= -->
+      <div class="mockup-note">Login — empty form</div>
+      <section class="section surface" style="padding: var(--space-6);">
+        <h1 style="margin-bottom: var(--space-2); text-align:center;">Welcome back</h1>
+        <p style="text-align:center; margin-bottom: var(--space-5);">Log in to join sessions and comment.</p>
+
+        <form class="form">
+          <div class="form__group">
+            <label class="form__label" for="login-username">Username</label>
+            <input class="form__input" type="text" id="login-username" name="username" placeholder="Your username">
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="login-password">Password</label>
+            <input class="form__input" type="password" id="login-password" name="password" placeholder="••••••••">
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--block">Log in</button>
+        </form>
+
+        <p style="text-align:center; margin-top: var(--space-5); font-size: var(--fs-sm);">
+          No account yet? <a href="register.html" class="link">Register</a>
+        </p>
+      </section>
+
+      <!-- ================= STATE: FORM ERROR ================= -->
+      <div class="mockup-note">Login — invalid credentials</div>
+      <section class="section surface" style="padding: var(--space-6);">
+        <h1 style="margin-bottom: var(--space-2); text-align:center;">Welcome back</h1>
+        <p style="text-align:center; margin-bottom: var(--space-5);">Log in to join sessions and comment.</p>
+
+        <form class="form">
+          <div class="form__banner form__banner--error" role="alert">
+            <span class="form__banner-icon" aria-hidden="true">⚠</span>
+            <span>Incorrect username or password.</span>
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="login-username-2">Username</label>
+            <input class="form__input" type="text" id="login-username-2" name="username" value="DarkKnight92">
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="login-password-2">Password</label>
+            <input class="form__input form__input--invalid" type="password" id="login-password-2" name="password" aria-invalid="true">
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--block">Log in</button>
+        </form>
+
+        <p style="text-align:center; margin-top: var(--space-5); font-size: var(--fs-sm);">
+          No account yet? <a href="register.html" class="link">Register</a>
+        </p>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__text">&copy; 2026 LFG Board — a SoftUni course project.</p>
+      <!--
+      <div class="site-footer__links">
+        <a href="home.html" class="site-footer__link">Home</a>
+        <a href="register.html" class="site-footer__link">Register</a>
+      </div>
+      -->
+    </div>
+  </footer>
+
+</body>
+</html>

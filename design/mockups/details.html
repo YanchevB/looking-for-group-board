@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LFG Board — Session Details</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/header.css">
+<link rel="stylesheet" href="../css/footer.css">
+<link rel="stylesheet" href="../css/button.css">
+<link rel="stylesheet" href="../css/form.css">
+<link rel="stylesheet" href="../css/status-badge.css">
+<link rel="stylesheet" href="../css/session-details.css">
+<link rel="stylesheet" href="../css/comments.css">
+</head>
+<body>
+
+  <!-- ================= HEADER STATE: LOGGED IN ================= -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="home.html" class="site-header__brand">
+        <span class="site-header__brand-mark">LFG</span>
+        LFG Board
+      </a>
+      <nav class="site-header__nav" aria-label="Main navigation">
+        <a href="home.html" class="site-header__link">Home</a>
+        <a href="catalog.html" class="site-header__link site-header__link--active">Catalog</a>
+        <a href="create.html" class="site-header__link">Create</a>
+        <a href="my-sessions.html" class="site-header__link">My Sessions</a>
+      </nav>
+      <div class="site-header__actions">
+        <span class="site-header__user">
+          <span class="site-header__avatar">DK</span>
+          DarkKnight92
+        </span>
+        <button type="button" class="btn btn--ghost btn--sm">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <div class="container">
+
+      <!-- =========================================================
+           PRIMARY EXAMPLE — full details page.
+           Action area shown here: LOGGED-IN, MEMBER (can Leave).
+           Comments shown here: normal list, incl. an own-comment with
+           a delete button, plus the add-comment form.
+           ========================================================= -->
+      <div class="mockup-note">Details page — full layout (member view)</div>
+
+      <div class="session-details">
+
+        <div class="session-details__header">
+          <div class="session-details__title-group">
+            <h1 class="session-details__title">Valorant — Ranked duo grind</h1>
+            <span class="session-details__platform">PC</span>
+          </div>
+          <span class="status-badge status-badge--open"><span class="status-badge__dot"></span>Open</span>
+        </div>
+
+        <div class="session-details__meta">
+          <span class="session-details__meta-item">Players: <span class="session-details__meta-value">2 / 5</span></span>
+          <span class="session-details__meta-item">Mic: <span class="session-details__meta-value">Required</span></span>
+          <span class="session-details__meta-item">Hosted by: <span class="session-details__meta-value">Vantage_</span></span>
+          <span class="session-details__meta-item">Started: <span class="session-details__meta-value">12 minutes ago</span></span>
+        </div>
+
+        <div class="session-details__body">
+
+          <div style="display:flex; flex-direction:column; gap: var(--space-6);">
+            <div class="session-details__section">
+              <h2 class="session-details__section-title">Description</h2>
+              <p class="session-details__description">
+                Ranked grind, need a duo who can play Sentinel. Comms preferred but
+                not mandatory — just don't be toxic if we drop a round. Currently
+                Diamond 2, aiming for Immortal before the act ends.
+              </p>
+            </div>
+
+            <div class="session-details__section">
+              <h2 class="session-details__section-title">Players (2 / 5)</h2>
+              <div class="session-details__players">
+                <div class="session-details__player session-details__player--host">
+                  <span class="session-details__player-avatar">V</span>
+                  <span class="session-details__player-name">Vantage_</span>
+                  <span class="session-details__player-tag">Host</span>
+                </div>
+                <div class="session-details__player">
+                  <span class="session-details__player-avatar">DK</span>
+                  <span class="session-details__player-name">DarkKnight92</span>
+                  <span class="session-details__player-tag">You</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="session-details__actions surface">
+            <span class="session-details__actions-title">Your status</span>
+            <p style="color: var(--color-text-muted); font-size: var(--fs-sm);">
+              You're in this session. See you in the lobby!
+            </p>
+            <button type="button" class="btn btn--danger btn--block">Leave session</button>
+          </aside>
+
+        </div>
+
+        <!-- ================= COMMENTS ================= -->
+        <div class="session-details__section">
+          <div class="comments">
+            <h2 class="comments__title">Comments</h2>
+
+            <div class="comments__list">
+              <div class="comment">
+                <span class="comment__avatar">V</span>
+                <div class="comment__body">
+                  <div class="comment__header">
+                    <span class="comment__author">Vantage_</span>
+                    <span class="comment__time">14 minutes ago</span>
+                  </div>
+                  <p class="comment__text">Invite is sent, hop in whenever you're ready!</p>
+                </div>
+              </div>
+
+              <div class="comment">
+                <span class="comment__avatar">RJ</span>
+                <div class="comment__body">
+                  <div class="comment__header">
+                    <span class="comment__author">RaeJinx</span>
+                    <span class="comment__time">10 minutes ago</span>
+                  </div>
+                  <p class="comment__text">Can I spectate if a slot doesn't open up?</p>
+                </div>
+              </div>
+
+              <!-- Own comment — shows the delete button variant -->
+              <div class="comment">
+                <span class="comment__avatar">DK</span>
+                <div class="comment__body">
+                  <div class="comment__header">
+                    <span class="comment__author">DarkKnight92</span>
+                    <span class="comment__time">2 minutes ago</span>
+                  </div>
+                  <p class="comment__text">Joined! Switching to Sentinel now.</p>
+                  <div class="comment__footer">
+                    <button type="button" class="comment__delete">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <form class="comments__form">
+              <div class="comments__form-row">
+                <label class="visually-hidden" for="comment-text">Add a comment</label>
+                <textarea id="comment-text" class="form__textarea" placeholder="Say something to the group…"></textarea>
+                <button type="submit" class="btn btn--primary">Post</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- =========================================================
+           ACTION AREA VARIANTS
+           Isolated sidebar panels showing every other state that the
+           details page's action area can be in.
+           ========================================================= -->
+
+      <div class="mockup-note">Action area — guest (not logged in)</div>
+      <aside class="session-details__actions surface" style="max-width: 320px;">
+        <span class="session-details__actions-title">Your status</span>
+        <div class="session-details__notice">
+          You need an account to join this session.
+        </div>
+        <a href="login.html" class="btn btn--primary btn--block">Log in to join</a>
+      </aside>
+
+      <div class="mockup-note">Action area — logged in, not a member (can join)</div>
+      <aside class="session-details__actions surface" style="max-width: 320px;">
+        <span class="session-details__actions-title">Your status</span>
+        <p style="color: var(--color-text-muted); font-size: var(--fs-sm);">
+          There's still room in this session.
+        </p>
+        <button type="button" class="btn btn--primary btn--block">Join session</button>
+      </aside>
+
+      <div class="mockup-note">Action area — session full (join disabled)</div>
+      <aside class="session-details__actions surface" style="max-width: 320px;">
+        <span class="session-details__actions-title">Your status</span>
+        <div class="session-details__notice">
+          All 4 slots are taken. You can still watch the comments for updates.
+        </div>
+        <button type="button" class="btn btn--primary btn--block" disabled>Session is full</button>
+      </aside>
+
+      <div class="mockup-note">Action area — session closed</div>
+      <aside class="session-details__actions surface" style="max-width: 320px;">
+        <span class="session-details__actions-title">Your status</span>
+        <div class="session-details__notice">
+          The host has closed this session. No new players can join.
+        </div>
+      </aside>
+
+      <div class="mockup-note">Action area — owner (host controls)</div>
+      <aside class="session-details__actions surface" style="max-width: 320px;">
+        <span class="session-details__actions-title">Manage session</span>
+        <div class="session-details__owner-actions">
+          <a href="edit.html" class="btn btn--secondary btn--block">Edit session</a>
+          <button type="button" class="btn btn--secondary btn--block">Close session</button>
+          <button type="button" class="btn btn--danger btn--block">Delete session</button>
+        </div>
+      </aside>
+
+      <!-- =========================================================
+           COMMENTS — guest variant
+           ========================================================= -->
+      <div class="mockup-note">Comments — guest ("log in to comment")</div>
+      <div class="comments" style="max-width: 640px;">
+        <h2 class="comments__title">Comments</h2>
+        <div class="comments__list">
+          <div class="comment">
+            <span class="comment__avatar">V</span>
+            <div class="comment__body">
+              <div class="comment__header">
+                <span class="comment__author">Vantage_</span>
+                <span class="comment__time">14 minutes ago</span>
+              </div>
+              <p class="comment__text">Invite is sent, hop in whenever you're ready!</p>
+            </div>
+          </div>
+        </div>
+        <div class="comments__login-prompt">
+          <span>Log in to leave a comment.</span>
+          <a href="login.html" class="btn btn--primary btn--sm">Log in</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__text">&copy; 2026 LFG Board — a SoftUni course project.</p>
+      <!--
+      <div class="site-footer__links">
+        <a href="catalog.html" class="site-footer__link">Catalog</a>
+        <a href="my-sessions.html" class="site-footer__link">My Sessions</a>
+      </div>
+      -->
+    </div>
+  </footer>
+
+</body>
+</html>

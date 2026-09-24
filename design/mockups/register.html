@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LFG Board — Register</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/header.css">
+<link rel="stylesheet" href="../css/footer.css">
+<link rel="stylesheet" href="../css/button.css">
+<link rel="stylesheet" href="../css/form.css">
+</head>
+<body>
+
+  <!-- ================= HEADER STATE: GUEST ================= -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="home.html" class="site-header__brand">
+        <span class="site-header__brand-mark">LFG</span>
+        LFG Board
+      </a>
+      <nav class="site-header__nav" aria-label="Main navigation">
+        <a href="home.html" class="site-header__link">Home</a>
+        <a href="catalog.html" class="site-header__link">Catalog</a>
+      </nav>
+      <div class="site-header__actions">
+        <a href="login.html" class="btn btn--ghost btn--sm">Log in</a>
+        <a href="register.html" class="btn btn--primary btn--sm site-header__link--active">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <div class="container" style="max-width: 420px;">
+
+      <!-- ================= STATE: CLEAN FORM ================= -->
+      <div class="mockup-note">Register — empty form</div>
+      <section class="section surface" style="padding: var(--space-6);">
+        <h1 style="margin-bottom: var(--space-2); text-align:center;">Create your account</h1>
+        <p style="text-align:center; margin-bottom: var(--space-5);">Join LFG Board to host and join sessions.</p>
+
+        <form class="form">
+          <div class="form__group">
+            <label class="form__label" for="reg-email">Email</label>
+            <input class="form__input" type="email" id="reg-email" name="email" placeholder="you@example.com">
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="reg-username">Username</label>
+            <input class="form__input" type="text" id="reg-username" name="username" placeholder="Pick a username">
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="reg-password">Password</label>
+            <input class="form__input" type="password" id="reg-password" name="password" placeholder="••••••••">
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="reg-password-repeat">Repeat password</label>
+            <input class="form__input" type="password" id="reg-password-repeat" name="passwordRepeat" placeholder="••••••••">
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--block">Create account</button>
+        </form>
+
+        <p style="text-align:center; margin-top: var(--space-5); font-size: var(--fs-sm);">
+          Already have an account? <a href="login.html" class="link">Log in</a>
+        </p>
+      </section>
+
+      <!-- ================= STATE: VALIDATION ERRORS ================= -->
+      <div class="mockup-note">Register — validation errors</div>
+      <section class="section surface" style="padding: var(--space-6);">
+        <h1 style="margin-bottom: var(--space-2); text-align:center;">Create your account</h1>
+        <p style="text-align:center; margin-bottom: var(--space-5);">Join LFG Board to host and join sessions.</p>
+
+        <form class="form">
+          <div class="form__banner form__banner--error" role="alert">
+            <span class="form__banner-icon" aria-hidden="true">⚠</span>
+            <span>That username is already taken.</span>
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="reg-email-2">Email</label>
+            <input class="form__input form__input--invalid" type="email" id="reg-email-2" name="email" value="not-an-email" aria-invalid="true" aria-describedby="reg-email-2-error">
+            <span class="form__error" id="reg-email-2-error">Enter a valid email address.</span>
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="reg-username-2">Username</label>
+            <input class="form__input form__input--invalid" type="text" id="reg-username-2" name="username" value="DarkKnight92" aria-invalid="true" aria-describedby="reg-username-2-error">
+            <span class="form__error" id="reg-username-2-error">Username is already taken.</span>
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="reg-password-2">Password</label>
+            <input class="form__input" type="password" id="reg-password-2" name="password" value="hunter2000">
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="reg-password-repeat-2">Repeat password</label>
+            <input class="form__input form__input--invalid" type="password" id="reg-password-repeat-2" name="passwordRepeat" value="hunter2" aria-invalid="true" aria-describedby="reg-password-repeat-2-error">
+            <span class="form__error" id="reg-password-repeat-2-error">Passwords do not match.</span>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--block">Create account</button>
+        </form>
+
+        <p style="text-align:center; margin-top: var(--space-5); font-size: var(--fs-sm);">
+          Already have an account? <a href="login.html" class="link">Log in</a>
+        </p>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__text">&copy; 2026 LFG Board — a SoftUni course project.</p>
+      <!--
+      <div class="site-footer__links">
+        <a href="home.html" class="site-footer__link">Home</a>
+        <a href="login.html" class="site-footer__link">Log in</a>
+      </div>
+      -->
+    </div>
+  </footer>
+
+</body>
+</html>

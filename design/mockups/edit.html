@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LFG Board — Edit Session</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/header.css">
+<link rel="stylesheet" href="../css/footer.css">
+<link rel="stylesheet" href="../css/button.css">
+<link rel="stylesheet" href="../css/form.css">
+</head>
+<body>
+
+  <!-- ================= HEADER STATE: LOGGED IN ================= -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="home.html" class="site-header__brand">
+        <span class="site-header__brand-mark">LFG</span>
+        LFG Board
+      </a>
+      <nav class="site-header__nav" aria-label="Main navigation">
+        <a href="home.html" class="site-header__link">Home</a>
+        <a href="catalog.html" class="site-header__link">Catalog</a>
+        <a href="create.html" class="site-header__link">Create</a>
+        <a href="my-sessions.html" class="site-header__link site-header__link--active">My Sessions</a>
+      </nav>
+      <div class="site-header__actions">
+        <span class="site-header__user">
+          <span class="site-header__avatar">V</span>
+          Vantage_
+        </span>
+        <button type="button" class="btn btn--ghost btn--sm">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <div class="container" style="max-width: 640px;">
+
+      <!-- ================= STATE: PRE-FILLED FORM ================= -->
+      <div class="mockup-note">Edit session — pre-filled form</div>
+      <section class="section surface" style="padding: var(--space-6);">
+        <h1 style="margin-bottom: var(--space-5);">Edit session</h1>
+
+        <form class="form">
+          <div class="form__group">
+            <label class="form__label" for="game">Game<span class="form__required">*</span></label>
+            <input class="form__input" type="text" id="game" name="game" value="Valorant">
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="platform">Platform<span class="form__required">*</span></label>
+            <select class="form__select" id="platform" name="platform">
+              <option value="ps5">PS5</option>
+              <option value="xbox">Xbox</option>
+              <option value="pc" selected>PC</option>
+              <option value="switch">Switch</option>
+              <option value="cross">Cross-platform</option>
+            </select>
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="slots">Open slots<span class="form__required">*</span></label>
+            <input class="form__input" type="number" id="slots" name="slots" min="2" max="8" value="5">
+            <span class="form__hint">Total players allowed, including you (2–8).</span>
+          </div>
+
+          <div class="form__group">
+            <div class="form__checkbox-row">
+              <input class="form__checkbox" type="checkbox" id="mic" name="mic" checked>
+              <label class="form__checkbox-label" for="mic">Mic required</label>
+            </div>
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="description">Description</label>
+            <textarea class="form__textarea" id="description" name="description">Ranked grind, need a duo who can play Sentinel. Comms preferred but not mandatory.</textarea>
+          </div>
+
+          <div class="form__actions">
+            <a href="details.html" class="btn btn--ghost">Cancel</a>
+            <button type="submit" class="btn btn--primary">Save changes</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ================= STATE: FORM-LEVEL ERROR BANNER ================= -->
+      <div class="mockup-note">Edit session — save failed (form-level error)</div>
+      <section class="section surface" style="padding: var(--space-6);">
+        <h1 style="margin-bottom: var(--space-5);">Edit session</h1>
+
+        <form class="form">
+          <div class="form__banner form__banner--error" role="alert">
+            <span class="form__banner-icon" aria-hidden="true">⚠</span>
+            <span>Couldn't save your changes — you can't set slots below the number of players already joined.</span>
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="game-2">Game<span class="form__required">*</span></label>
+            <input class="form__input" type="text" id="game-2" name="game" value="Valorant">
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="platform-2">Platform<span class="form__required">*</span></label>
+            <select class="form__select" id="platform-2" name="platform">
+              <option value="ps5">PS5</option>
+              <option value="xbox">Xbox</option>
+              <option value="pc" selected>PC</option>
+              <option value="switch">Switch</option>
+              <option value="cross">Cross-platform</option>
+            </select>
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="slots-2">Open slots<span class="form__required">*</span></label>
+            <input class="form__input form__input--invalid" type="number" id="slots-2" name="slots" min="2" max="8" value="1" aria-invalid="true" aria-describedby="slots-2-error">
+            <span class="form__error" id="slots-2-error">Slots can't be lower than the 2 players already in this session.</span>
+          </div>
+
+          <div class="form__group">
+            <div class="form__checkbox-row">
+              <input class="form__checkbox" type="checkbox" id="mic-2" name="mic" checked>
+              <label class="form__checkbox-label" for="mic-2">Mic required</label>
+            </div>
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="description-2">Description</label>
+            <textarea class="form__textarea" id="description-2" name="description">Ranked grind, need a duo who can play Sentinel.</textarea>
+          </div>
+
+          <div class="form__actions">
+            <a href="details.html" class="btn btn--ghost">Cancel</a>
+            <button type="submit" class="btn btn--primary">Save changes</button>
+          </div>
+        </form>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__text">&copy; 2026 LFG Board — a SoftUni course project.</p>
+      <!--
+      <div class="site-footer__links">
+        <a href="catalog.html" class="site-footer__link">Catalog</a>
+        <a href="my-sessions.html" class="site-footer__link">My Sessions</a>
+      </div>
+      -->
+    </div>
+  </footer>
+
+</body>
+</html>
