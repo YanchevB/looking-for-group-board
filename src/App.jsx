@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage'
 import CatalogPage from './pages/CatalogPage'
 import SessionDetailPage from './pages/SessionDetailPage'
 import CreateSessionPage from './pages/CreateSessionPage'
+import EditSessionPage from './pages/EditSessionPage'
 
 function App() {
 
