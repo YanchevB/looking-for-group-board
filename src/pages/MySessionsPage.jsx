@@ -4,6 +4,7 @@ import '../styles/button.css';
 import '../styles/session-card.css';
 import '../styles/status-badge.css';
 import '../styles/feedback.css';
+import Button from '../components/Button';
 
 export default function MySessionsPage() {
     return (
@@ -14,9 +15,7 @@ export default function MySessionsPage() {
                 <section className="section">
                     <div className="section__heading">
                         <h2>Hosting</h2>
-                        <a href="create.html" className="btn btn--primary btn--sm">
-                            Host a session
-                        </a>
+                        <Button to='/create' size='sm'>Host a session</Button>
                     </div>
 
                     <div className="session-grid">

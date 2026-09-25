@@ -1,5 +1,6 @@
 //TODO: Change imports once individual components are created
 //TODO: Add error banner
+import Button from '../components/Button';
 import '../styles/button.css';
 import '../styles/form.css';
 
@@ -81,12 +82,9 @@ export default function EditSessionPage() {
                             />
                         </div>
                         <div className="form__actions">
-                            <a href="details.html" className="btn btn--ghost">
-                                Cancel
-                            </a>
-                            <button type="submit" className="btn btn--primary">
-                                Save changes
-                            </button>
+                            <Button to='/details' variant='ghost'>Cancel</Button>
+                           
+                            <Button type='submit'>Save changes</Button>
                         </div>
                     </form>
                 </section>

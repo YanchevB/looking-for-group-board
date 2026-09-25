@@ -1,4 +1,5 @@
 //TODO: Change imports once individual components are created
+import Button from '../components/Button';
 import '../styles/button.css';
 
 export default function NotFoundPage() {
@@ -24,12 +25,9 @@ export default function NotFoundPage() {
                     get you back to finding a group.
                 </p>
                 <div className="btn-group" style={{ justifyContent: "center" }}>
-                    <a href="home.html" className="btn btn--primary">
-                        Back to home
-                    </a>
-                    <a href="catalog.html" className="btn btn--secondary">
-                        Browse sessions
-                    </a>
+                    <Button to='/home'>Back to home</Button>
+                    
+                    <Button to='/catalog' variant='secondary'>Browse sessions</Button>
                 </div>
             </div>
         </main>

@@ -5,6 +5,7 @@ import '../styles/form.css';
 import '../styles/status-badge.css';
 import '../styles/session-details.css';
 import '../styles/comments.css';
+import Button from '../components/Button';
 
 export default function SessionDetailPage() {
     return (
@@ -73,9 +74,8 @@ export default function SessionDetailPage() {
                             <p style={{ color: "var(--color-text-muted)", fontSize: "var(--fs-sm)" }}>
                                 You're in this session. See you in the lobby!
                             </p>
-                            <button type="button" className="btn btn--danger btn--block">
-                                Leave session
-                            </button>
+
+                            <Button type='button' variant='danger' size='block'>Leave session</Button>
                         </aside>
                     </div>
                     {/* ================= COMMENTS ================= */}
@@ -135,9 +135,8 @@ export default function SessionDetailPage() {
                                         placeholder="Say something to the group…"
                                         defaultValue={""}
                                     />
-                                    <button type="submit" className="btn btn--primary">
-                                        Post
-                                    </button>
+
+                                    <Button type='submit'>Post</Button>
                                 </div>
                             </form>
                         </div>

@@ -1,5 +1,6 @@
 //TODO: Change imports once individual components are created
 //TODO: Add validation errors
+import Button from '../components/Button';
 import '../styles/button.css';
 import '../styles/form.css';
 
@@ -73,12 +74,9 @@ export default function CreateSessionPage() {
                             />
                         </div>
                         <div className="form__actions">
-                            <a href="catalog.html" className="btn btn--ghost">
-                                Cancel
-                            </a>
-                            <button type="submit" className="btn btn--primary">
-                                Create session
-                            </button>
+                            <Button to='/catalog' variant='ghost'>Cancel</Button>
+                            
+                            <Button type='submit' variant='primary'>Create session</Button>
                         </div>
                     </form>
                 </section>

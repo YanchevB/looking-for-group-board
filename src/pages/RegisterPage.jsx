@@ -1,5 +1,6 @@
 //TODO: Change imports once individual components are created
 //TODO: Add validation errors
+import Button from '../components/Button';
 import '../styles/button.css';
 import '../styles/form.css';
 
@@ -68,9 +69,7 @@ export default function RegisterPage() {
                             />
                         </div>
 
-                        <button type="submit" className="btn btn--primary btn--block">
-                            Create account
-                        </button>
+                        <Button type='submit' size='block'>Create account</Button>
                     </form>
 
                     <p

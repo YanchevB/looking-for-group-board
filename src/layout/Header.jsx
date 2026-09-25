@@ -1,3 +1,4 @@
+import Button from '../components/Button';
 import '../styles/header.css';
 
 export default function Header() {
@@ -24,12 +25,9 @@ export default function Header() {
                     </a>
                 </nav>
                 <div className="site-header__actions">
-                    <a href="login.html" className="btn btn--ghost btn--sm">
-                        Log in
-                    </a>
-                    <a href="register.html" className="btn btn--primary btn--sm">
-                        Register
-                    </a>
+                    <Button to='/login' variant='ghost' size='sm'>Log in</Button>
+
+                    <Button to='/register' size='sm'>Register</Button>
                 </div>
             </div>
         </header>
