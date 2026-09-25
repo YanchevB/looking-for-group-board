@@ -6,6 +6,10 @@ import CatalogPage from './pages/CatalogPage'
 import SessionDetailPage from './pages/SessionDetailPage'
 import CreateSessionPage from './pages/CreateSessionPage'
 import EditSessionPage from './pages/EditSessionPage'
+import MySessionsPage from './pages/MySessionsPage'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
+import NotFoundPage from './pages/NotFoundPage'
 
 function App() {
 
@@ -13,7 +17,13 @@ function App() {
     <>
         <Header />
 
-        <HomePage /> 
+        <MySessionsPage />
+        <hr />
+        <LoginPage />
+        <hr />
+        <RegisterPage />
+        <hr />
+        <NotFoundPage />
 
         <Footer />
     </>
