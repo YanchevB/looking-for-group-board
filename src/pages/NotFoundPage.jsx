@@ -1,6 +1,5 @@
 //TODO: Change imports once individual components are created
 import Button from '../components/Button';
-import '../styles/button.css';
 
 export default function NotFoundPage() {
     return (

@@ -1,6 +1,5 @@
 //TODO: Change imports once individual components are created
 //TODO: Add other variants for action area
-import '../styles/button.css';
 import '../styles/form.css';
 import '../styles/status-badge.css';
 import '../styles/session-details.css';

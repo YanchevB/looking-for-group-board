@@ -1,7 +1,6 @@
 //TODO: Change imports once individual components are created
 //TODO: Add invalid credentials state
 import Button from '../components/Button';
-import '../styles/button.css';
 import '../styles/form.css';
 
 export default function LoginPage() {
