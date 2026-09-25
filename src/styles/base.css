@@ -147,8 +147,15 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   min-height: 100vh;
+}
+
+/* React mounts the whole app inside #root, so #root — not body — is the
+   actual parent of Header/page content/Footer. It needs the flex column
+   here for the footer to stick to the bottom on short pages. */
+#root {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 h1,
@@ -214,6 +221,10 @@ textarea:focus-visible,
   max-width: var(--container-width);
   margin-inline: auto;
   padding-inline: var(--space-4);
+  /* Most pages render .container directly under #root (no .page-main
+     wrapper), so it needs to be the flex item that grows and pushes
+     the footer down — see #root above. */
+  flex: 1 0 auto;
 }
 
 .page-main {
