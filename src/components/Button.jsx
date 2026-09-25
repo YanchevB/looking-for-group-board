@@ -4,7 +4,8 @@ export default function Button({
     variant = 'primary',
     size,
     to,
-    children 
+    children,
+    type
 }) {
     const className = `btn btn--${variant} ${size ? `btn--${size}` : ''}`;
     
@@ -13,6 +14,6 @@ export default function Button({
     }
 
     return (
-        <button className={className}>{children}</button>
+        <button className={className} type={type}>{children}</button>
     );
 }
