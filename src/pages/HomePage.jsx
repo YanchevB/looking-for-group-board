@@ -1,5 +1,4 @@
-//TODO: Change import once button component is created
-import '../styles/button.css'
+import Button from '../components/Button';
 
 export default function HomePage() {
     return (
@@ -28,12 +27,9 @@ export default function HomePage() {
                         server required.
                     </p>
                     <div className="btn-group" style={{ justifyContent: "center" }}>
-                        <a href="catalog.html" className="btn btn--primary btn--lg">
-                            Browse sessions
-                        </a>
-                        <a href="register.html" className="btn btn--secondary btn--lg">
-                            Create a free account
-                        </a>
+                        <Button to='/catalog' size='lg'>Browse sessions</Button>
+                        
+                        <Button to='/register' variant='secondary' size='lg'>Create a free account</Button>
                     </div>
                 </section>
                 {/* How it works */}
