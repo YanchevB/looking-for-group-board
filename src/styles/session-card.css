@@ -109,7 +109,13 @@
   font-weight: 600;
 }
 
-/* State modifiers — dim the card a little once it's no longer joinable */
+/* State modifiers — driven by the same sessionStatus prop as StatusBadge,
+   so the card and its badge can never disagree about status. */
+.session-card--open {
+  /* Open is the default card look — no override needed, kept here so
+     every status has a matching modifier for reference. */
+}
+
 .session-card--full {
   border-color: rgba(217, 164, 65, 0.35);
 }
