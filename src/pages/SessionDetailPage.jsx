@@ -5,6 +5,7 @@ import '../styles/status-badge.css';
 import '../styles/session-details.css';
 import '../styles/comments.css';
 import Button from '../components/Button';
+import PlayerList from '../components/PlayerList';
 
 export default function SessionDetailPage() {
     return (
@@ -52,21 +53,7 @@ export default function SessionDetailPage() {
                                     Diamond 2, aiming for Immortal before the act ends.
                                 </p>
                             </div>
-                            <div className="session-details__section">
-                                <h2 className="session-details__section-title">Players (2 / 5)</h2>
-                                <div className="session-details__players">
-                                    <div className="session-details__player session-details__player--host">
-                                        <span className="session-details__player-avatar">V</span>
-                                        <span className="session-details__player-name">Vantage_</span>
-                                        <span className="session-details__player-tag">Host</span>
-                                    </div>
-                                    <div className="session-details__player">
-                                        <span className="session-details__player-avatar">DK</span>
-                                        <span className="session-details__player-name">DarkKnight92</span>
-                                        <span className="session-details__player-tag">You</span>
-                                    </div>
-                                </div>
-                            </div>
+                            <PlayerList />
                         </div>
                         <aside className="session-details__actions surface">
                             <span className="session-details__actions-title">Your status</span>
