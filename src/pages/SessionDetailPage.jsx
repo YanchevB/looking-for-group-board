@@ -4,8 +4,9 @@ import '../styles/form.css';
 import '../styles/status-badge.css';
 import '../styles/session-details.css';
 import '../styles/comments.css';
-import Button from '../components/Button';
 import PlayerList from '../components/PlayerList';
+import SessionActions from '../components/SessionActions';
+import CommentForm from '../components/CommentForm';
 
 export default function SessionDetailPage() {
     return (
@@ -55,14 +56,7 @@ export default function SessionDetailPage() {
                             </div>
                             <PlayerList />
                         </div>
-                        <aside className="session-details__actions surface">
-                            <span className="session-details__actions-title">Your status</span>
-                            <p style={{ color: "var(--color-text-muted)", fontSize: "var(--fs-sm)" }}>
-                                You're in this session. See you in the lobby!
-                            </p>
-
-                            <Button type='button' variant='danger' size='block'>Leave session</Button>
-                        </aside>
+                        <SessionActions />
                     </div>
                     {/* ================= COMMENTS ================= */}
                     <div className="session-details__section">
@@ -110,21 +104,7 @@ export default function SessionDetailPage() {
                                     </div>
                                 </div>
                             </div>
-                            <form className="comments__form">
-                                <div className="comments__form-row">
-                                    <label className="visually-hidden" htmlFor="comment-text">
-                                        Add a comment
-                                    </label>
-                                    <textarea
-                                        id="comment-text"
-                                        className="form__textarea"
-                                        placeholder="Say something to the group…"
-                                        defaultValue={""}
-                                    />
-
-                                    <Button type='submit'>Post</Button>
-                                </div>
-                            </form>
+                            <CommentForm />
                         </div>
                     </div>
                 </div>
