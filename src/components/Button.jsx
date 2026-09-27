@@ -10,6 +10,7 @@ export default function Button({
     const className = `btn btn--${variant} ${size ? `btn--${size}` : ''}`;
     
     if (to) {
+        // TODO: Change to <Link /> after implementing routing
         return <a to={to} className={className}>{children}</a>
     }
 
