@@ -4,7 +4,8 @@ import StatusBadge from './StatusBadge';
 
 export default function SessionCard({
     session,
-    sessionStatus = 'open'
+    sessionStatus = 'open',
+    actionLabel = 'View'
 }) {
     return (
         <article className={`session-card session-card--${sessionStatus}`}>
@@ -34,7 +35,7 @@ export default function SessionCard({
                     Host: <span className="session-card__host-name">Vantage_</span>
                 </span>
                 {/* TODO: Add session id to details */}
-                <Button to='/details' variant="secondary" size="sm">View</Button>
+                <Button to='/details' variant="secondary" size="sm">{actionLabel}</Button>
             </div>
         </article>
     );
