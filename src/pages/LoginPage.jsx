@@ -1,4 +1,3 @@
-//TODO: Change imports once individual components are created
 //TODO: Add invalid credentials state
 import Button from '../components/Button';
 import '../styles/form.css';

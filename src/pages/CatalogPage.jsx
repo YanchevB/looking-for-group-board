@@ -1,5 +1,4 @@
 //TODO: Change imports once individual components are created
-import '../styles/status-badge.css';
 import '../styles/feedback.css';
 import Button from '../components/Button';
 import SessionCard from '../components/SessionCard';

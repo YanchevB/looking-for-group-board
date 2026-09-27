@@ -1,4 +1,3 @@
-//TODO: Change imports once individual components are created
 //TODO: Add validation errors
 import Button from '../components/Button';
 import '../styles/form.css';

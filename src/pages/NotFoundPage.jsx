@@ -1,4 +1,3 @@
-//TODO: Change imports once individual components are created
 import Button from '../components/Button';
 
 export default function NotFoundPage() {
