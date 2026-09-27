@@ -1,12 +1,10 @@
-//TODO: Change imports once individual components are created
 //TODO: Add other variants for action area
-import '../styles/form.css';
-import '../styles/status-badge.css';
 import '../styles/session-details.css';
-import '../styles/comments.css';
 import PlayerList from '../components/PlayerList';
 import SessionActions from '../components/SessionActions';
 import CommentForm from '../components/CommentForm';
+import CommentList from '../components/CommentList';
+import StatusBadge from '../components/StatusBadge';
 
 export default function SessionDetailPage() {
     return (
@@ -18,10 +16,7 @@ export default function SessionDetailPage() {
                             <h1 className="session-details__title">Valorant — Ranked duo grind</h1>
                             <span className="session-details__platform">PC</span>
                         </div>
-                        <span className="status-badge status-badge--open">
-                            <span className="status-badge__dot" />
-                            Open
-                        </span>
+                        <StatusBadge sessionStatus='open'/>
                     </div>
                     <div className="session-details__meta">
                         <span className="session-details__meta-item">
@@ -54,58 +49,21 @@ export default function SessionDetailPage() {
                                     Diamond 2, aiming for Immortal before the act ends.
                                 </p>
                             </div>
+
                             <PlayerList />
+
                         </div>
+
                         <SessionActions />
+
                     </div>
                     {/* ================= COMMENTS ================= */}
                     <div className="session-details__section">
-                        <div className="comments">
-                            <h2 className="comments__title">Comments</h2>
-                            <div className="comments__list">
-                                <div className="comment">
-                                    <span className="comment__avatar">V</span>
-                                    <div className="comment__body">
-                                        <div className="comment__header">
-                                            <span className="comment__author">Vantage_</span>
-                                            <span className="comment__time">14 minutes ago</span>
-                                        </div>
-                                        <p className="comment__text">
-                                            Invite is sent, hop in whenever you're ready!
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="comment">
-                                    <span className="comment__avatar">RJ</span>
-                                    <div className="comment__body">
-                                        <div className="comment__header">
-                                            <span className="comment__author">RaeJinx</span>
-                                            <span className="comment__time">10 minutes ago</span>
-                                        </div>
-                                        <p className="comment__text">
-                                            Can I spectate if a slot doesn't open up?
-                                        </p>
-                                    </div>
-                                </div>
-                                {/* Own comment — shows the delete button variant */}
-                                <div className="comment">
-                                    <span className="comment__avatar">DK</span>
-                                    <div className="comment__body">
-                                        <div className="comment__header">
-                                            <span className="comment__author">DarkKnight92</span>
-                                            <span className="comment__time">2 minutes ago</span>
-                                        </div>
-                                        <p className="comment__text">Joined! Switching to Sentinel now.</p>
-                                        <div className="comment__footer">
-                                            <button type="button" className="comment__delete">
-                                                Delete
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <CommentForm />
-                        </div>
+
+                        <CommentList />
+
+                        <CommentForm />
+
                     </div>
                 </div>
             </div>
