@@ -1,4 +1,4 @@
-import '../styles/session-details.css';
+import './session-details.css';
 
 //TODO: Replace default players/maxSlots with real session data once fetching is wired up
 export default function PlayerList({

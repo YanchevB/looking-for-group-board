@@ -1,6 +1,6 @@
-import '../styles/comments.css';
-import '../styles/form.css';
-import Button from './Button';
+import './comments.css';
+import '../shared/form.css';
+import Button from '../shared/Button';
 
 //TODO: Add "log in to comment" variant for guests; wire up real submit handling
 export default function CommentForm() {

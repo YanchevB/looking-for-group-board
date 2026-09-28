@@ -1,6 +1,6 @@
 //TODO: Add validation errors
-import Button from '../components/Button';
-import '../styles/form.css';
+import Button from '../shared/Button';
+import '../shared/form.css';
 
 export default function RegisterPage() {
     return (

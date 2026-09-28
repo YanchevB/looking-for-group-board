@@ -1,6 +1,6 @@
 //TODO: Add invalid credentials state
-import Button from '../components/Button';
-import '../styles/form.css';
+import Button from '../shared/Button';
+import '../shared/form.css';
 
 export default function LoginPage() {
     return (

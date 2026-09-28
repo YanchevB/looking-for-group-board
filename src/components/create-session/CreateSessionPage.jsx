@@ -1,5 +1,5 @@
 //TODO: Add validation errors
-import SessionForm from '../components/SessionForm';
+import SessionForm from '../shared/SessionForm';
 
 export default function CreateSessionPage() {
     return (

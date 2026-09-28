@@ -1,4 +1,4 @@
-import '../styles/feedback.css';
+import './feedback.css';
 import Button from './Button';
 
 export default function EmptyState({

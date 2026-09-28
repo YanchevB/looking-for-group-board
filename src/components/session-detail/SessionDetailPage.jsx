@@ -1,10 +1,10 @@
 //TODO: Add other variants for action area
-import '../styles/session-details.css';
-import PlayerList from '../components/PlayerList';
-import SessionActions from '../components/SessionActions';
-import CommentForm from '../components/CommentForm';
-import CommentList from '../components/CommentList';
-import StatusBadge from '../components/StatusBadge';
+import './session-details.css';
+import PlayerList from './PlayerList';
+import SessionActions from './SessionActions';
+import CommentForm from './CommentForm';
+import CommentList from './CommentList';
+import StatusBadge from '../shared/StatusBadge';
 
 export default function SessionDetailPage() {
     return (

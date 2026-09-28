@@ -1,15 +1,15 @@
 import { useState } from 'react'
-import Footer from './layout/Footer'
-import Header from './layout/Header'
-import HomePage from './pages/HomePage'
-import CatalogPage from './pages/CatalogPage'
-import SessionDetailPage from './pages/SessionDetailPage'
-import CreateSessionPage from './pages/CreateSessionPage'
-import EditSessionPage from './pages/EditSessionPage'
-import MySessionsPage from './pages/MySessionsPage'
-import LoginPage from './pages/LoginPage'
-import RegisterPage from './pages/RegisterPage'
-import NotFoundPage from './pages/NotFoundPage'
+import Footer from './components/footer/Footer'
+import Header from './components/header/Header'
+import HomePage from './components/home/HomePage'
+import CatalogPage from './components/catalog/CatalogPage'
+import SessionDetailPage from './components/session-detail/SessionDetailPage'
+import CreateSessionPage from './components/create-session/CreateSessionPage'
+import EditSessionPage from './components/edit-session/EditSessionPage'
+import MySessionsPage from './components/my-sessions/MySessionsPage'
+import LoginPage from './components/login/LoginPage'
+import RegisterPage from './components/register/RegisterPage'
+import NotFoundPage from './components/not-found/NotFoundPage'
 
 function App() {
 
@@ -17,13 +17,7 @@ function App() {
     <>
         <Header />
 
-        <MySessionsPage />
-        <hr />
-        <LoginPage />
-        <hr />
-        <RegisterPage />
-        <hr />
-        <NotFoundPage />
+        <SessionDetailPage />
 
         <Footer />
     </>

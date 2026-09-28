@@ -1,5 +1,5 @@
-import '../styles/session-details.css';
-import Button from './Button';
+import './session-details.css';
+import Button from '../shared/Button';
 
 //TODO: Add guest, non-member, full, closed, and owner variants (see design/mockups/details.html)
 export default function SessionActions() {

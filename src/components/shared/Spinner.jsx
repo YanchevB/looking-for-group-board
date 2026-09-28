@@ -1,4 +1,4 @@
-import '../styles/feedback.css';
+import './feedback.css';
 
 export default function Spinner({ message = 'Loading…' }) {
     return (

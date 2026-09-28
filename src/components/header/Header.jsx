@@ -1,5 +1,5 @@
-import Button from '../components/Button';
-import '../styles/header.css';
+import Button from '../shared/Button';
+import './header.css';
 
 export default function Header() {
     // TODO: branch on auth state once useAuth()/AuthContext exists.

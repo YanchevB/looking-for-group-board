@@ -1,5 +1,5 @@
 import Button from "./Button";
-import '../styles/form.css';
+import './form.css';
 
 export default function SessionForm() {
     //TODO: Pass props to SessionForm for edit mode (title, defaultValues, submit label, cancel target)

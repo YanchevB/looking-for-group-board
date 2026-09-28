@@ -1,7 +1,7 @@
 //TODO: Add empty and loading states
-import '../styles/feedback.css';
-import Button from '../components/Button';
-import SessionCard from '../components/SessionCard';
+import '../shared/feedback.css';
+import Button from '../shared/Button';
+import SessionCard from '../shared/SessionCard';
 
 export default function MySessionsPage() {
     return (

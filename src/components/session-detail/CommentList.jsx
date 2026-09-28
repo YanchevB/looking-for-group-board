@@ -1,4 +1,4 @@
-import '../styles/comments.css';
+import './comments.css';
 import Comment from './Comment';
 
 export default function CommentList() {

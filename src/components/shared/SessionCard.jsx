@@ -1,4 +1,4 @@
-import '../styles/session-card.css'
+import './session-card.css'
 import Button from './Button';
 import StatusBadge from './StatusBadge';
 

@@ -1,4 +1,4 @@
-import '../styles/comments.css';
+import './comments.css';
 
 export default function Comment({
     //TODO: Implement this better

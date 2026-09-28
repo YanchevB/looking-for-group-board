@@ -1,4 +1,4 @@
-import '../styles/status-badge.css'
+import './status-badge.css'
 
 export default function StatusBadge({
     sessionStatus
