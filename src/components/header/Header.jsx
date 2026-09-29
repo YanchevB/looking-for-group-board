@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import Button from '../shared/Button';
 import './header.css';
 
@@ -9,20 +10,20 @@ export default function Header() {
     return (
         <header className="site-header">
             <div className="container site-header__inner">
-                <a href="home.html" className="site-header__brand">
+                <Link to="/" className="site-header__brand">
                     <span className="site-header__brand-mark">LFG</span>
                     LFG Board
-                </a>
+                </Link>
                 <nav className="site-header__nav" aria-label="Main navigation">
-                    <a
-                        href="home.html"
-                        className="site-header__link site-header__link--active"
+                    <Link
+                        to="/"
+                        className="site-header__link"
                     >
                         Home
-                    </a>
-                    <a href="catalog.html" className="site-header__link">
+                    </Link>
+                    <Link to='/catalog' className="site-header__link">
                         Catalog
-                    </a>
+                    </Link>
                 </nav>
                 <div className="site-header__actions">
                     <Button to='/login' variant='ghost' size='sm'>Log in</Button>
