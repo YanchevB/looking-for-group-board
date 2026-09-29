@@ -1,27 +1,28 @@
-import { useState } from 'react'
+import { Route, Routes } from 'react-router'
 import Footer from './components/footer/Footer'
 import Header from './components/header/Header'
+import SessionDetailPage from './components/session-detail/SessionDetailPage'
 import HomePage from './components/home/HomePage'
 import CatalogPage from './components/catalog/CatalogPage'
-import SessionDetailPage from './components/session-detail/SessionDetailPage'
-import CreateSessionPage from './components/create-session/CreateSessionPage'
-import EditSessionPage from './components/edit-session/EditSessionPage'
-import MySessionsPage from './components/my-sessions/MySessionsPage'
 import LoginPage from './components/login/LoginPage'
 import RegisterPage from './components/register/RegisterPage'
-import NotFoundPage from './components/not-found/NotFoundPage'
 
 function App() {
 
-  return (
-    <>
-        <Header />
+    return (
+        <>
+            <Header />
 
-        <SessionDetailPage />
+            <Routes>
+                <Route path='/' element={<HomePage />} />
+                <Route path='/catalog' element={<CatalogPage />} />
+                <Route path='/login' element={<LoginPage />} />
+                <Route path='/register' element={<RegisterPage />} />
+            </Routes>
 
-        <Footer />
-    </>
-  )
+            <Footer />
+        </>
+    )
 }
 
 export default App
