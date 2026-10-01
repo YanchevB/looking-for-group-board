@@ -1,4 +1,5 @@
 //TODO: Add validation errors
+import { Link } from 'react-router';
 import Button from '../shared/Button';
 import '../shared/form.css';
 
@@ -77,7 +78,7 @@ export default function RegisterPage() {
                             fontSize: "var(--fs-sm)"
                         }}
                     >
-                        Already have an account? <a href="login.html" className="link">Log in</a>
+                        Already have an account? <Link to="/login" className="link">Log in</Link>
                     </p>
                 </section>
             </div>
