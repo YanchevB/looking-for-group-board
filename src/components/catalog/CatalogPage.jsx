@@ -28,11 +28,9 @@ export default function CatalogPage() {
                         <Button to='/create' size='sm'>Host a session</Button>
                     </div>
                     <div className="session-grid">
-                        <SessionCard sessionStatus={'full'}/>
-
-                        <SessionCard sessionStatus={'closed'} />
-
-                        <SessionCard />
+                        {sessions.map(
+                            session => <SessionCard key={session.id} session={session}/> 
+                        )}
                     </div>
                 </section>
             </div>
