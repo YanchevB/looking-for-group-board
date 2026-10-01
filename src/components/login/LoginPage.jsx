@@ -1,4 +1,5 @@
 //TODO: Add invalid credentials state
+import { Link } from 'react-router';
 import Button from '../shared/Button';
 import '../shared/form.css';
 
@@ -51,7 +52,7 @@ export default function LoginPage() {
                             fontSize: "var(--fs-sm)"
                         }}
                     >
-                        No account yet? <a href="register.html" className="link">Register</a>
+                        No account yet? <Link to="/register" className="link">Register</Link>
                     </p>
                 </section>
             </div>
