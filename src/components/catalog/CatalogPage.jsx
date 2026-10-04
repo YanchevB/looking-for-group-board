@@ -12,7 +12,7 @@ export default function CatalogPage() {
     const BASE_URL = 'https://lzjxpomifimexeopgnpj.supabase.co/rest/v1/'
 
     useEffect(() => {
-        fetch(BASE_URL + 'sessions', {
+        fetch(BASE_URL + 'sessions?select=*,owner:profiles!owner_id(username),session_players(count)', {
             headers: {
                 'apiKey': import.meta.env.VITE_API_KEY
             }
