@@ -18,6 +18,7 @@ function App() {
                 <Route path='/catalog' element={<CatalogPage />} />
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/register' element={<RegisterPage />} />
+                <Route path='/details/:id' element={<SessionDetailPage />} />
             </Routes>
 
             <Footer />
