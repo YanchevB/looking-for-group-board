@@ -9,7 +9,7 @@ import Spinner from '../shared/Spinner';
 export default function CatalogPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [sessions, setSessions] = useState([]);
-    const BASE_URL = 'https://lzjxpomifimexeopgnpj.supabase.co/rest/v1/'
+    const BASE_URL = import.meta.env.VITE_BASE_URL
 
     useEffect(() => {
         fetch(BASE_URL + 'sessions?select=*,owner:profiles!owner_id(username),session_players(count)', {
