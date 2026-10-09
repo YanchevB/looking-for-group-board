@@ -81,7 +81,7 @@ export default function SessionDetailPage() {
                                     </p>
                                 </div>
 
-                                <PlayerList />
+                                <PlayerList players={session.session_players} slots={session.slots} ownerId={session.owner_id} />
 
                             </div>
 
