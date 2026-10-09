@@ -8,6 +8,7 @@ import StatusBadge from '../shared/StatusBadge';
 import { useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 import Spinner from '../shared/Spinner';
+import { timeAgo } from '../../utils/time';
 
 export default function SessionDetailPage() {
     const { id } = useParams();
@@ -62,7 +63,7 @@ export default function SessionDetailPage() {
                             {/* TODO: Calculate time from session.created_at */}
                             <span className="session-details__meta-item">
                                 Started:{" "}
-                                <span className="session-details__meta-value">12 minutes ago</span>
+                                <span className="session-details__meta-value">{timeAgo(session.created_at)}</span>
                             </span>
                         </div>
                         <div className="session-details__body">
