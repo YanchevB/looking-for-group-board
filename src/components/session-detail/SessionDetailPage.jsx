@@ -91,7 +91,7 @@ export default function SessionDetailPage() {
                         {/* ================= COMMENTS ================= */}
                         <div className="session-details__section">
 
-                            <CommentList />
+                            <CommentList comments={session.comments} ownerId={session.owner_id}/>
 
                             <CommentForm />
 
