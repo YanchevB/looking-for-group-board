@@ -44,6 +44,12 @@
   flex-shrink: 0;
 }
 
+/* Comment written by the session's host — mirrors .session-details__player--host */
+.comment--host .comment__avatar {
+  background-color: var(--color-accent);
+  color: var(--color-accent-text);
+}
+
 .comment__body {
   flex: 1;
   display: flex;
