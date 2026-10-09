@@ -5,67 +5,98 @@ import SessionActions from './SessionActions';
 import CommentForm from './CommentForm';
 import CommentList from './CommentList';
 import StatusBadge from '../shared/StatusBadge';
+import { useParams } from 'react-router';
+import { useEffect, useState } from 'react';
+import Spinner from '../shared/Spinner';
 
 export default function SessionDetailPage() {
+    const { id } = useParams();
+    const BASE_URL = import.meta.env.VITE_BASE_URL;
+    const [session, setSession] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        fetch(`${BASE_URL}sessions?id=eq.${id}&select=*,owner:profiles!owner_id(username),session_players(user_id,player:profiles!user_id(username)),comments(id,text,created_at,user_id,author:profiles!user_id(username))&comments.order=created_at.asc`, {
+            headers: {
+                'apiKey': import.meta.env.VITE_API_KEY
+            }
+        })
+            .then(res => res.json())
+            .then(data => setSession(data[0]))
+            .catch(err => alert(err))
+            .finally(() => setIsLoading(false))
+    }, [id]);
+
     return (
         <main className="page-main">
             <div className="container">
-                <div className="session-details">
-                    <div className="session-details__header">
-                        <div className="session-details__title-group">
-                            <h1 className="session-details__title">Valorant — Ranked duo grind</h1>
-                            <span className="session-details__platform">PC</span>
+                {isLoading && <Spinner />}
+                {!isLoading && 
+                    <div className="session-details">
+                        <div className="session-details__header">
+                            <div className="session-details__title-group">
+                                <h1 className="session-details__title">{session.game}</h1>
+                                <span className="session-details__platform">{session.platform}</span>
+                            </div>
+                            {!session.is_closed &&
+                                session.session_players?.length < session.slots &&
+                                <StatusBadge sessionStatus='open' />}
+
+                            {!session.is_closed &&
+                                session.session_players?.length >= session.slots &&
+                                <StatusBadge sessionStatus='full' />}
+
+                            {session.is_closed &&
+                                <StatusBadge sessionStatus='closed' />}
                         </div>
-                        <StatusBadge sessionStatus='open'/>
-                    </div>
-                    <div className="session-details__meta">
-                        <span className="session-details__meta-item">
-                            Players: <span className="session-details__meta-value">2 / 5</span>
-                        </span>
-                        <span className="session-details__meta-item">
-                            Mic: <span className="session-details__meta-value">Required</span>
-                        </span>
-                        <span className="session-details__meta-item">
-                            Hosted by: <span className="session-details__meta-value">Vantage_</span>
-                        </span>
-                        <span className="session-details__meta-item">
-                            Started:{" "}
-                            <span className="session-details__meta-value">12 minutes ago</span>
-                        </span>
-                    </div>
-                    <div className="session-details__body">
-                        <div
-                            style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: "var(--space-6)"
-                            }}
-                        >
-                            <div className="session-details__section">
-                                <h2 className="session-details__section-title">Description</h2>
-                                <p className="session-details__description">
-                                    Ranked grind, need a duo who can play Sentinel. Comms preferred but
-                                    not mandatory — just don't be toxic if we drop a round. Currently
-                                    Diamond 2, aiming for Immortal before the act ends.
-                                </p>
+                        <div className="session-details__meta">
+                            <span className="session-details__meta-item">
+                                Players: <span className="session-details__meta-value">{session.session_players?.length} / {session.slots}</span>
+                            </span>
+                            {session.mic_required && <span className="session-details__meta-item">
+                                Mic: <span className="session-details__meta-value">Required</span>
+                            </span>}
+                            <span className="session-details__meta-item">
+                                Hosted by: <span className="session-details__meta-value">{session.owner?.username}</span>
+                            </span>
+                            {/* TODO: Calculate time from session.created_at */}
+                            <span className="session-details__meta-item">
+                                Started:{" "}
+                                <span className="session-details__meta-value">12 minutes ago</span>
+                            </span>
+                        </div>
+                        <div className="session-details__body">
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    gap: "var(--space-6)"
+                                }}
+                            >
+                                <div className="session-details__section">
+                                    <h2 className="session-details__section-title">Description</h2>
+                                    <p className="session-details__description">
+                                        {session.description}
+                                    </p>
+                                </div>
+
+                                <PlayerList />
+
                             </div>
 
-                            <PlayerList />
+                            <SessionActions />
 
                         </div>
+                        {/* ================= COMMENTS ================= */}
+                        <div className="session-details__section">
 
-                        <SessionActions />
+                            <CommentList />
 
-                    </div>
-                    {/* ================= COMMENTS ================= */}
-                    <div className="session-details__section">
+                            <CommentForm />
 
-                        <CommentList />
-
-                        <CommentForm />
-
-                    </div>
-                </div>
+                        </div>
+                    </div>}
+                
             </div>
         </main>
     );
