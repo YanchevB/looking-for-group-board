@@ -1,12 +1,19 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import Button from '../shared/Button';
 import './header.css';
+import useAuth from '../../hooks/useAuth';
+import { extractInitial } from '../../utils/extractInitial';
+import supabase from '../../lib/supabase';
 
 export default function Header() {
-    // TODO: branch on auth state once useAuth()/AuthContext exists.
-    // Logged-in variant (from home.html reference block):
-    //   nav: Home, Catalog, Create, My Sessions
-    //   actions: <span className="site-header__user">...avatar+name...</span>, Logout  button
+    const { user, isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+
+    async function logoutHandler() {
+        await supabase.auth.signOut();
+        navigate('/');
+    }
+
     return (
         <header className="site-header">
             <div className="container site-header__inner">
@@ -24,11 +31,34 @@ export default function Header() {
                     <Link to='/catalog' className="site-header__link">
                         Catalog
                     </Link>
+
+                    {isAuthenticated && (
+                        <>
+                            <Link to='/create' className="site-header__link">
+                                Create
+                            </Link>
+                            <Link to='/my-sessions' className="site-header__link">
+                                My Sessions
+                            </Link>
+                        </>
+                    )}
                 </nav>
                 <div className="site-header__actions">
-                    <Button to='/login' variant='ghost' size='sm'>Log in</Button>
+                    {!isAuthenticated
+                        ? <>
+                            <Button to='/login' variant='ghost' size='sm'>Log in</Button>
 
-                    <Button to='/register' size='sm'>Register</Button>
+                            <Button to='/register' size='sm'>Register</Button>
+                        </>
+                        : <>
+                            <span className="site-header__user">
+                                <span className="site-header__avatar">{extractInitial(user.user_metadata.username)}</span>
+                                {user.user_metadata.username}
+                            </span>
+
+                            <Button type='button' variant='ghost' size='sm' onClick={logoutHandler}>Logout</Button>
+                        </>
+                    }
                 </div>
             </div>
         </header>
