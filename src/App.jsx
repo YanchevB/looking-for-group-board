@@ -9,6 +9,7 @@ import RegisterPage from './components/register/RegisterPage'
 import NotFoundPage from './components/not-found/NotFoundPage'
 import EditSessionPage from './components/edit-session/EditSessionPage'
 import CreateSessionPage from './components/create-session/CreateSessionPage'
+import MySessionsPage from './components/my-sessions/MySessionsPage'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
                 <Route path='/create' element={<CreateSessionPage />} />
                 <Route path='/details/:id' element={<SessionDetailPage />} />
                 <Route path='/edit/:id' element={<EditSessionPage />} />
+                <Route path='/my-sessions' element={<MySessionsPage />} />
                 <Route path='*' element={<NotFoundPage />} />
             </Routes>
 
