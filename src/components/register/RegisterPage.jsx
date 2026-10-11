@@ -58,10 +58,11 @@ export default function RegisterPage() {
                 return;
             }
             
-            setIsSubmitting(false);
             navigate("/catalog");
         } catch (error) {
             setError(error.message);
+        } finally {
+            setIsSubmitting(false);
         }
     }
 
