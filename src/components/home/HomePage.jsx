@@ -1,6 +1,9 @@
+import useAuth from '../../hooks/useAuth';
 import Button from '../shared/Button';
 
 export default function HomePage() {
+    const { isAuthenticated } = useAuth();
+
     return (
         <main className="page-main">
             <div className="container">
@@ -28,11 +31,13 @@ export default function HomePage() {
                     </p>
                     <div className="btn-group" style={{ justifyContent: "center" }}>
                         <Button to='/catalog' size='lg'>Browse sessions</Button>
+                        {!isAuthenticated && 
+                            <Button to='/register' variant='secondary' size='lg'>Create a free account</Button>
+                        }
                         
-                        <Button to='/register' variant='secondary' size='lg'>Create a free account</Button>
                     </div>
                 </section>
-                {/* How it works */}
+
                 <section className="section">
                     <div
                         className="section__heading"
