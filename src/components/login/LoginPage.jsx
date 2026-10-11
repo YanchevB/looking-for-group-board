@@ -22,7 +22,7 @@ export default function LoginPage() {
                             </label>
                             <input
                                 className="form__input"
-                                type="text"
+                                type="email"
                                 id="login-email"
                                 name="email"
                                 placeholder="you@example.com"
