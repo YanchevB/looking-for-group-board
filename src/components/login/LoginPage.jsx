@@ -17,15 +17,15 @@ export default function LoginPage() {
 
                     <form className="form">
                         <div className="form__group">
-                            <label className="form__label" htmlFor="login-username">
-                                Username
+                            <label className="form__label" htmlFor="login-email">
+                                Email
                             </label>
                             <input
                                 className="form__input"
                                 type="text"
-                                id="login-username"
-                                name="username"
-                                placeholder="Your username"
+                                id="login-email"
+                                name="email"
+                                placeholder="you@example.com"
                             />
                         </div>
 
