@@ -6,21 +6,46 @@ import { useEffect, useState } from 'react';
 import EmptyState from '../shared/EmptyState';
 import Spinner from '../shared/Spinner';
 
+const BASE_URL = import.meta.env.VITE_BASE_URL
+
 export default function CatalogPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [sessions, setSessions] = useState([]);
-    const BASE_URL = import.meta.env.VITE_BASE_URL
 
     useEffect(() => {
+        const abortController = new AbortController();
+
         fetch(BASE_URL + 'sessions?select=*,owner:profiles!owner_id(username),session_players(count)', {
+            signal: abortController.signal,
             headers: {
                 'apiKey': import.meta.env.VITE_API_KEY
             }
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Request failed: ${response.status}`);
+            }
+
+            return response.json()
+        })
         .then(data => setSessions(data))
-        .catch(err => alert(err))
-        .finally(() => setIsLoading(false));
+        .catch(err => {
+            // Aborted on unmount (or StrictMode's dev remount) — not a real error
+            if (err.name === 'AbortError') {
+                return;
+            }
+
+            alert(err);
+        })
+        .finally(() => {
+            if (!abortController.signal.aborted) {
+                setIsLoading(false);
+            }
+        });
+
+        return () => {
+            abortController.abort()
+        };
     },[]);
     
     return (

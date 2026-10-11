@@ -10,29 +10,55 @@ import { useEffect, useState } from 'react';
 import Spinner from '../shared/Spinner';
 import { timeAgo } from '../../utils/time';
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 export default function SessionDetailPage() {
     const { id } = useParams();
-    const BASE_URL = import.meta.env.VITE_BASE_URL;
     const [session, setSession] = useState({});
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`${BASE_URL}sessions?id=eq.${id}&select=*,owner:profiles!owner_id(username),session_players(user_id,player:profiles!user_id(username)),comments(id,text,created_at,user_id,author:profiles!user_id(username))&comments.order=created_at.asc`, {
-            headers: {
-                'apiKey': import.meta.env.VITE_API_KEY
-            }
-        })
-            .then(res => res.json())
+        const abortController = new AbortController();
+
+        fetch(`${BASE_URL}sessions?id=eq.${id}&select=*,owner:profiles!owner_id(username),session_players(user_id,player:profiles!user_id(username)),comments(id,text,created_at,user_id,author:profiles!user_id(username))&comments.order=created_at.asc`,
+            {
+                signal: abortController.signal,
+                headers: {
+                    'apiKey': import.meta.env.VITE_API_KEY
+                }
+            })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`Request failed: ${res.status}`);
+                }
+
+                return res.json()
+            })
             .then(data => setSession(data[0]))
-            .catch(err => alert(err))
-            .finally(() => setIsLoading(false))
+            .catch(err => {
+                // Aborted on unmount / id change (or StrictMode's dev remount) — not a real error
+                if (err.name === 'AbortError') {
+                    return;
+                }
+
+                alert(err);
+            })
+            .finally(() => {
+                if (!abortController.signal.aborted) {
+                    setIsLoading(false);
+                }
+            });
+
+            return () => {
+                abortController.abort();
+            }
     }, [id]);
 
     return (
         <main className="page-main">
             <div className="container">
                 {isLoading && <Spinner />}
-                {!isLoading && 
+                {!isLoading &&
                     <div className="session-details">
                         <div className="session-details__header">
                             <div className="session-details__title-group">
@@ -91,13 +117,13 @@ export default function SessionDetailPage() {
                         {/* ================= COMMENTS ================= */}
                         <div className="session-details__section">
 
-                            <CommentList comments={session.comments} ownerId={session.owner_id}/>
+                            <CommentList comments={session.comments} ownerId={session.owner_id} />
 
                             <CommentForm />
 
                         </div>
                     </div>}
-                
+
             </div>
         </main>
     );
