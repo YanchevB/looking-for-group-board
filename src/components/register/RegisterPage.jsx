@@ -54,7 +54,6 @@ export default function RegisterPage() {
 
             if (signUpError) {
                 setError(signUpError.message);
-                setIsSubmitting(false);
                 return;
             }
             
@@ -149,7 +148,7 @@ export default function RegisterPage() {
                             {fieldError?.passwordRepeat && <p className="form__error">{fieldError.passwordRepeat}</p>}
                         </div>
 
-                        <Button type='submit' size='block' onClick={() => setIsSubmitting(true)} disabled={isSubmitting}>Create account</Button>
+                        <Button type='submit' size='block' disabled={isSubmitting}>Create account</Button>
                     </form>
 
                     <p
