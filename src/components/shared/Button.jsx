@@ -8,7 +8,9 @@ export default function Button({
     size,
     to,
     children,
-    type
+    type,
+    clickHandler,
+    disabled
 }) {
     const className = `btn btn--${variant} ${size ? `btn--${size}` : ''}`;
     
@@ -17,6 +19,6 @@ export default function Button({
     }
 
     return (
-        <button className={className} type={type}>{children}</button>
+        <button className={className} type={type} onClick={clickHandler} disabled={disabled}>{children}</button>
     );
 }
