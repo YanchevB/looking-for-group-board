@@ -2,11 +2,13 @@
 import '../shared/feedback.css';
 import Button from '../shared/Button';
 import SessionCard from '../shared/SessionCard';
+import WipNote from '../shared/WipNote';
 
 export default function MySessionsPage() {
     return (
         <main className="page-main">
             <div className="container">
+                <WipNote>these are placeholder sessions, not your real ones.</WipNote>
                 <h1 style={{ marginBottom: "var(--space-6)" }}>My sessions</h1>
 
                 <section className="section">

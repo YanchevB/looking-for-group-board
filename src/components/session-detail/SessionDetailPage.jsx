@@ -8,6 +8,7 @@ import StatusBadge from '../shared/StatusBadge';
 import { useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 import Spinner from '../shared/Spinner';
+import WipNote from '../shared/WipNote';
 import { timeAgo } from '../../utils/time';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -57,6 +58,7 @@ export default function SessionDetailPage() {
     return (
         <main className="page-main">
             <div className="container">
+                <WipNote>Join/Leave and host controls aren't wired yet; comments are read-only.</WipNote>
                 {isLoading && <Spinner />}
                 {!isLoading &&
                     <div className="session-details">
