@@ -4,12 +4,16 @@ import StatusBadge from './StatusBadge';
 
 export default function SessionCard({
     session,
-    sessionStatus = 'open',
     actionLabel = 'View'
 }) {
-    
+    //TODO (Tue Oct 20, My Sessions): extract the open/full/closed rule into a utils helper (e.g. getSessionStatus) shared by SessionCard and SessionDetailPage
+    const playerCount = session?.session_players[0].count;
+    let sessionStatus = 'open';
+
     if (session?.is_closed) {
         sessionStatus = 'closed';
+    } else if (playerCount >= session?.slots) {
+        sessionStatus = 'full';
     }
 
     return (
@@ -23,7 +27,7 @@ export default function SessionCard({
             </div>
             <div className="session-card__meta">
                 <span className="session-card__meta-item">
-                    <span className="session-card__slots">{session?.session_players[0].count} / {session?.slots}</span> players
+                    <span className="session-card__slots">{playerCount} / {session?.slots}</span> players
                 </span>
                 {session?.mic_required && <span className="session-card__meta-item">
                     <span className="session-card__mic-icon" aria-hidden="true">
