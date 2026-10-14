@@ -18,9 +18,9 @@ export default function MySessionsPage() {
                     </div>
 
                     <div className="session-grid">
-                        <SessionCard actionLabel='Manage'/>
+                        {/* <SessionCard actionLabel='Manage'/>
 
-                        <SessionCard sessionStatus='closed' actionLabel='Manage'/>
+                        <SessionCard sessionStatus='closed' actionLabel='Manage'/> */}
                     </div>
                 </section>
 

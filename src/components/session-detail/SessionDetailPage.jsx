@@ -67,6 +67,7 @@ export default function SessionDetailPage() {
                                 <h1 className="session-details__title">{session.game}</h1>
                                 <span className="session-details__platform">{session.platform}</span>
                             </div>
+                            {/* TODO (Tue Oct 20, My Sessions): extract the open/full/closed rule into a utils helper (e.g. getSessionStatus) shared by SessionCard and SessionDetailPage */}
                             {!session.is_closed &&
                                 session.session_players?.length < session.slots &&
                                 <StatusBadge sessionStatus='open' />}
