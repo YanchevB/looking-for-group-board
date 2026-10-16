@@ -7,18 +7,20 @@ export default function SessionForm({
     onChange,
     fieldError,
     error,
-    isSubmitting
+    isSubmitting,
+    title = 'Host a session',
+    submitLabel = 'Create session',
+    cancelTo = '/catalog'
 }) {
-    //TODO: Pass props to SessionForm for edit mode (title, defaultValues, submit label, cancel target)
     return (
         <div className="container" style={{ maxWidth: 640 }}>
             <section className="section surface" style={{ padding: "var(--space-6)" }}>
-                <h1 style={{ marginBottom: "var(--space-5)" }}>Host a session</h1>
+                <h1 style={{ marginBottom: "var(--space-5)" }}>{title}</h1>
                 <form className="form" onSubmit={onSubmit}>
                     {fieldError && Object.keys(fieldError).length > 0 && (
                         <div className="form__banner form__banner--error" role="alert">
                             <span className="form__banner-icon" aria-hidden="true">⚠</span>
-                            <span>Please fix the highlighted fields before creating your session.</span>
+                            <span>Please fix the highlighted fields before saving.</span>
                         </div>
                     )}
                     {error && (
@@ -106,9 +108,9 @@ export default function SessionForm({
                         />
                     </div>
                     <div className="form__actions">
-                        <Button to='/catalog' variant='ghost'>Cancel</Button>
+                        <Button to={cancelTo} variant='ghost'>Cancel</Button>
 
-                        <Button type='submit' variant='primary' disabled={isSubmitting}>Create session</Button>
+                        <Button type='submit' variant='primary' disabled={isSubmitting}>{submitLabel}</Button>
                     </div>
                 </form>
             </section>
