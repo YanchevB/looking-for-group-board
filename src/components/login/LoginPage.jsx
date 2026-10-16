@@ -3,60 +3,32 @@ import Button from '../shared/Button';
 import '../shared/form.css';
 import loginValidate from '../../utils/loginValidate';
 import supabase from '../../lib/supabase';
-import { useState } from 'react';
+import useForm from '../../hooks/useForm';
 
 export default function LoginPage() {
     const navigate = useNavigate();
 
-    const [formData, setFormData] = useState({
-        email: '',
-        password: ''
-    });
-    const [error, setError] = useState(null);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const inputChangeHandler = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    }
-
-    async function submitHandler(e) {
-        e.preventDefault();
-        setError(null);
-        setIsSubmitting(true);
-
-        const formErrors = loginValidate(formData);
-        setError(formErrors);
-
-        if (Object.keys(formErrors).length > 0) {
-            setIsSubmitting(false);
-            return;
-        }
-
-        try {
-            const { error: signInError } = await supabase.auth.signInWithPassword({
-                email: formData.email,
-                password: formData.password,
-            });
-
-            if (signInError) {
-                setError({
-                    banner: signInError.code === 'invalid_credentials'
-                        ? 'Incorrect email or password!'
-                        : signInError.message
+    const { formData, fieldError, error, isSubmitting, changeHandler, submitHandler } = 
+        useForm(
+            { email: '', password: '' },
+            loginValidate,
+            async (values) => {
+                const { error: signInError } = await supabase.auth.signInWithPassword({
+                    email: values.email,
+                    password: values.password,
                 });
-                return;
-            }
 
-            navigate("/catalog");
-        } catch (error) {
-            setError({ banner: error.message });
-        } finally {
-            setIsSubmitting(false);
-        }
-    }
+                if (signInError) {
+                    if (signInError.code === 'invalid_credentials') {
+                        throw new Error('Incorrect email or password');
+                    }
+                    
+                    throw signInError;
+                }
+
+                navigate("/catalog");
+            }
+        );
 
     return (
         <main className="page-main">
@@ -70,10 +42,10 @@ export default function LoginPage() {
                     </p>
 
                     <form className="form" onSubmit={submitHandler}>
-                        {error?.banner &&
+                        {(fieldError?.banner || error) &&
                             <div className="form__banner form__banner--error" role="alert">
                                 <span className="form__banner-icon" aria-hidden="true">⚠</span>
-                                <span>{error.banner}</span>
+                                <span>{fieldError?.banner || error}</span>
                             </div>
                         }
                         <div className="form__group">
@@ -81,12 +53,12 @@ export default function LoginPage() {
                                 Email
                             </label>
                             <input
-                                className={error?.email ? "form__input form__input--invalid" : "form__input"}
+                                className={fieldError?.email ? "form__input form__input--invalid" : "form__input"}
                                 type="email"
                                 id="login-email"
                                 name="email"
                                 value={formData.email}
-                                onChange={inputChangeHandler}
+                                onChange={changeHandler}
                                 placeholder="you@example.com"
                             />
                         </div>
@@ -96,12 +68,12 @@ export default function LoginPage() {
                                 Password
                             </label>
                             <input
-                                className={error?.password ? "form__input form__input--invalid" : "form__input"}
+                                className={fieldError?.password ? "form__input form__input--invalid" : "form__input"}
                                 type="password"
                                 id="login-password"
                                 name="password"
                                 value={formData.password}
-                                onChange={inputChangeHandler}
+                                onChange={changeHandler}
                                 placeholder="••••••••"
                             />
                         </div>
