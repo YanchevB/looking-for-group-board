@@ -1,73 +1,38 @@
-import { useState } from 'react';
 import SessionForm from '../shared/SessionForm';
-import WipNote from '../shared/WipNote';
 import supabase from '../../lib/supabase';
 import { useNavigate } from 'react-router';
 import sessionValidate from '../../utils/sessionValidate';
+import useForm from '../../hooks/useForm';
 
 export default function CreateSessionPage() {
     const navigate = useNavigate();
 
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [error, setError] = useState(null);
-    const [fieldError, setFieldError] = useState(null);
+    const { formData, fieldError, error, isSubmitting, changeHandler, submitHandler } =
+        useForm(
+            { game: '', platform: '', slots: '', mic_required: false, description: '' },
+            sessionValidate,
+            async (values) => {
+                const { data: newSession, error: sessionError } = await supabase
+                    .from('sessions')
+                    .insert(values)
+                    .select()
+                    .single();
 
-    const [formData, setFormData] = useState({
-        game: '',
-        platform: '',
-        slots: '',
-        mic_required: false,
-        description: '',
-    });
+                if (sessionError) {
+                    throw sessionError;
+                }
 
-    const changeHandler = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.type === 'checkbox' ? e.target.checked : e.target.value
-        })
-    }
+                const { error: playerError } = await supabase
+                    .from('session_players')
+                    .insert({ session_id: newSession.id });
 
-    const submitHandler = async (e) => {
-        e.preventDefault();
-        setError(null);
-        setIsSubmitting(true);
+                if (playerError) {
+                    throw playerError;
+                }
 
-        const formErrors = sessionValidate(formData);
-        setFieldError(formErrors);
-
-        if (Object.keys(formErrors).length > 0) {
-            setIsSubmitting(false);
-            return;
-        }
-
-        try {
-            const { data: newSession, error: sessionError } = await supabase
-                .from('sessions')
-                .insert(formData)
-                .select()
-                .single();
-
-            if (sessionError) {
-                setError(sessionError.message);
-                return;
+                navigate('/catalog');
             }
-
-            const { error: playerError } = await supabase
-                .from('session_players')
-                .insert({ session_id: newSession.id });
-
-            if (playerError) {
-                setError(playerError.message);
-                return;
-            }
-
-            navigate('/catalog');
-        } catch (error) {
-            setError(error.message);
-        } finally {
-            setIsSubmitting(false);
-        }
-    }
+        );
 
     return (
         <main className="page-main">
