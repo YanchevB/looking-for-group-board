@@ -1,69 +1,39 @@
 import { Link, useNavigate } from 'react-router';
 import Button from '../shared/Button';
 import '../shared/form.css';
-import { useState } from 'react';
 import supabase from '../../lib/supabase';
 import registerValidate from '../../utils/registerValidate';
+import useForm from '../../hooks/useForm';
+
+//TODO: Check if the username is taken before signing up (query profiles by username)
+// and set fieldError.username to "Username is already taken" instead of
+// showing Supabase's generic "Database error saving new user" banner
 
 export default function RegisterPage() {
     const navigate = useNavigate();
 
-    const [formData, setFormData] = useState({
-        email: '',
-        username: '',
-        password: '',
-        passwordRepeat: ''
-    });
-    const [error, setError] = useState(null);
-    const [fieldError, setFieldError] = useState(null);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const inputChangeHandler = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    }
-
-    async function submitHandler(e) {
-        e.preventDefault();
-        setError(null);
-        setIsSubmitting(true);
-
-        const formErrors = registerValidate(formData);
-        setFieldError(formErrors);
-
-        if (Object.keys(formErrors).length > 0) {
-            setIsSubmitting(false);
-            return;
-        }
-
-        try {
-            //TODO: Check if the username is taken before signing up (query profiles by username)
-            // and set fieldError.username to "Username is already taken" instead of
-            // showing Supabase's generic "Database error saving new user" banner
-            const { error: signUpError } = await supabase.auth.signUp({
-                email: formData.email,
-                password: formData.password,
-                options: {
-                    data: {
-                        username: formData.username
+    const { formData, fieldError, error, isSubmitting, changeHandler, submitHandler } =
+        useForm (
+            { email:'', username: '', password: '', passwordRepeat: '' },
+            registerValidate, 
+            async (values) => {
+                const { error: signUpError } = await supabase.auth.signUp({
+                    email: values.email,
+                    password: values.password,
+                    options: {
+                        data: {
+                            username: values.username
+                        }
                     }
-                }
-            });
+                });
 
-            if (signUpError) {
-                setError(signUpError.message);
-                return;
+                if (signUpError) {
+                    throw signUpError;
+                }
+
+                navigate("/catalog");
             }
-            
-            navigate("/catalog");
-        } catch (error) {
-            setError(error.message);
-        } finally {
-            setIsSubmitting(false);
-        }
-    }
+        );
 
     return (
         <main className="page-main">
@@ -77,7 +47,7 @@ export default function RegisterPage() {
                     </p>
 
                     <form className="form" onSubmit={submitHandler}>
-                        {error && 
+                        {error &&
                             <div className="form__banner form__banner--error" role="alert">
                                 <span className="form__banner-icon" aria-hidden="true">⚠</span>
                                 <span>{error}</span>
@@ -93,7 +63,7 @@ export default function RegisterPage() {
                                 id="reg-email"
                                 name="email"
                                 value={formData.email}
-                                onChange={inputChangeHandler}
+                                onChange={changeHandler}
                                 placeholder="you@example.com"
                             />
 
@@ -110,7 +80,7 @@ export default function RegisterPage() {
                                 id="reg-username"
                                 name="username"
                                 value={formData.username}
-                                onChange={inputChangeHandler}
+                                onChange={changeHandler}
                                 placeholder="Pick a username"
                             />
                             {fieldError?.username && <p className="form__error">{fieldError.username}</p>}
@@ -126,7 +96,7 @@ export default function RegisterPage() {
                                 id="reg-password"
                                 name="password"
                                 value={formData.password}
-                                onChange={inputChangeHandler}
+                                onChange={changeHandler}
                                 placeholder="••••••••"
                             />
                             {fieldError?.password && <p className="form__error">{fieldError.password}</p>}
@@ -142,7 +112,7 @@ export default function RegisterPage() {
                                 id="reg-password-repeat"
                                 name="passwordRepeat"
                                 value={formData.passwordRepeat}
-                                onChange={inputChangeHandler}
+                                onChange={changeHandler}
                                 placeholder="••••••••"
                             />
                             {fieldError?.passwordRepeat && <p className="form__error">{fieldError.passwordRepeat}</p>}
