@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import Spinner from '../shared/Spinner';
 import WipNote from '../shared/WipNote';
 import { timeAgo } from '../../utils/time';
+import useAuth from '../../hooks/useAuth';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -17,6 +18,7 @@ export default function SessionDetailPage() {
     const { id } = useParams();
     const [session, setSession] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+    const { user } = useAuth();
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -55,6 +57,8 @@ export default function SessionDetailPage() {
             }
     }, [id]);
 
+    const isOwner = user?.id === session.owner_id;
+
     return (
         <main className="page-main">
             <div className="container">
@@ -89,7 +93,6 @@ export default function SessionDetailPage() {
                             <span className="session-details__meta-item">
                                 Hosted by: <span className="session-details__meta-value">{session.owner?.username}</span>
                             </span>
-                            {/* TODO: Calculate time from session.created_at */}
                             <span className="session-details__meta-item">
                                 Started:{" "}
                                 <span className="session-details__meta-value">{timeAgo(session.created_at)}</span>
@@ -114,7 +117,7 @@ export default function SessionDetailPage() {
 
                             </div>
 
-                            <SessionActions />
+                            <SessionActions isOwner={isOwner} session={session} />
 
                         </div>
                         {/* ================= COMMENTS ================= */}
