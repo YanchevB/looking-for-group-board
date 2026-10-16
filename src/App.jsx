@@ -36,6 +36,7 @@ function App() {
                 </Route>
 
                 <Route path='*' element={<NotFoundPage />} />
+                <Route path='/404' element={<NotFoundPage />} />
             </Routes>
 
             <Footer />
