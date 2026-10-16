@@ -5,7 +5,7 @@ import SessionActions from './SessionActions';
 import CommentForm from './CommentForm';
 import CommentList from './CommentList';
 import StatusBadge from '../shared/StatusBadge';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 import Spinner from '../shared/Spinner';
 import WipNote from '../shared/WipNote';
@@ -16,6 +16,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export default function SessionDetailPage() {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [session, setSession] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const { user } = useAuth();
@@ -31,13 +32,25 @@ export default function SessionDetailPage() {
                 }
             })
             .then(res => {
+                // 400 = the id isn't a valid uuid, so treat it like "no session found"
+                if (res.status === 400) {
+                    return [];
+                }
+
                 if (!res.ok) {
                     throw new Error(`Request failed: ${res.status}`);
                 }
 
                 return res.json()
             })
-            .then(data => setSession(data[0]))
+            .then(data => {
+                if (!data[0]) {
+                    navigate('/404');
+                    return;
+                }
+
+                setSession(data[0]);
+            })
             .catch(err => {
                 // Aborted on unmount / id change (or StrictMode's dev remount) — not a real error
                 if (err.name === 'AbortError') {
@@ -55,7 +68,7 @@ export default function SessionDetailPage() {
             return () => {
                 abortController.abort();
             }
-    }, [id]);
+    }, [id, navigate]);
 
     const isOwner = user?.id === session.owner_id;
 
