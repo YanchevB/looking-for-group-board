@@ -56,6 +56,11 @@ export default function EditSessionPage() {
                 }
             })
             .then(res => {
+                
+                if (res.status === 400) {
+                    return [];
+                }
+
                 if (!res.ok) {
                     throw new Error(`Request failed: ${res.status}`);
                 }
