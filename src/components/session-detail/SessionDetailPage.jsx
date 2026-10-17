@@ -99,8 +99,6 @@ export default function SessionDetailPage() {
 
         navigate('/catalog');
     }
-    // TODO: Add isActing state to disable button while processing the request
-    // Just put it in a try/catch and change states in between, pass the state to button
 
     const joinHandler = async () => {
         setActionError(null);
