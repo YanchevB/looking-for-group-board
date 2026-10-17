@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 import Spinner from '../shared/Spinner';
 import WipNote from '../shared/WipNote';
+import supabase from '../../lib/supabase';
 import { timeAgo } from '../../utils/time';
 import useAuth from '../../hooks/useAuth';
 
@@ -19,6 +20,7 @@ export default function SessionDetailPage() {
     const navigate = useNavigate();
     const [session, setSession] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+    const [actionError, setActionError] = useState(null);
     const { user } = useAuth();
 
     useEffect(() => {
@@ -65,14 +67,33 @@ export default function SessionDetailPage() {
                 }
             });
 
-            return () => {
-                abortController.abort();
-            }
+        return () => {
+            abortController.abort();
+        }
     }, [id, navigate]);
 
     const isOwner = user?.id === session.owner_id;
     const isMember = session.session_players?.some(player => player.user_id === user?.id);
     const isFull = session.session_players?.length >= session.slots;
+
+    const deleteHandler = async () => {
+        if (!confirm('Are you sure you want to delete this session?')) {
+            return;
+        }
+
+        setActionError(null);
+        const { error: deleteError } = await supabase
+            .from('sessions')
+            .delete()
+            .eq('id', session.id);
+
+        if (deleteError) {
+            setActionError(deleteError.message);
+            return;
+        }
+
+        navigate('/catalog');
+    }
 
     return (
         <main className="page-main">
@@ -132,7 +153,14 @@ export default function SessionDetailPage() {
 
                             </div>
 
-                            <SessionActions isOwner={isOwner} isMember={isMember} isFull={isFull} session={session} />
+                            <SessionActions 
+                                session={session} 
+                                isOwner={isOwner} 
+                                isMember={isMember} 
+                                isFull={isFull} 
+                                error={actionError}
+                                onDelete={deleteHandler}
+                            />
 
                         </div>
                         {/* ================= COMMENTS ================= */}

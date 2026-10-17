@@ -8,33 +8,14 @@ import useAuth from '../../hooks/useAuth';
 
 //TODO: Wire up Join, Leave and Close/Reopen handlers (refresh the session after each one)
 export default function SessionActions({
+    session,
     isOwner,
     isMember,
     isFull,
-    session
+    error,
+    onDelete
 }) {
     const { user } = useAuth();
-    const navigate = useNavigate();
-    const [error, setError] = useState(null);
-
-    const deleteHandler = async () => {
-        if (!confirm('Are you sure you want to delete this session?')) {
-            return;
-        }
-
-        setError(null);
-        const { error: deleteError } = await supabase
-            .from('sessions')
-            .delete()
-            .eq('id', session.id);
-
-        if (deleteError) {
-            setError(deleteError.message);
-            return;
-        }
-
-        navigate('/catalog');
-    }
 
     // Order matters: each check assumes the ones above it didn't match
     if (isOwner) {
@@ -47,7 +28,7 @@ export default function SessionActions({
                     <Button type='button' variant='secondary' size='block'>
                         {session.is_closed ? 'Reopen session' : 'Close session'}
                     </Button>
-                    <Button type='button' variant='danger' size='block' onClick={deleteHandler}>Delete session</Button>
+                    <Button type='button' variant='danger' size='block' onClick={onDelete}>Delete session</Button>
                 </div>
             </aside>
         );
