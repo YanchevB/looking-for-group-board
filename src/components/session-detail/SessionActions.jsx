@@ -13,6 +13,7 @@ export default function SessionActions({
     isMember,
     isFull,
     error,
+    isActing,
     onDelete,
     onJoin,
     onLeave
@@ -56,7 +57,9 @@ export default function SessionActions({
                 <p style={{ color: "var(--color-text-muted)", fontSize: "var(--fs-sm)" }}>
                     You're in this session. See you in the lobby!
                 </p>
-                <Button type='button' variant='danger' size='block' onClick={onLeave}>Leave session</Button>
+                <Button type='button' variant='danger' size='block' disabled={isActing} onClick={onLeave}>
+                    {isActing ? 'Leaving...' : 'Leave session'}
+                </Button>
             </aside>
         );
     }
@@ -92,7 +95,9 @@ export default function SessionActions({
             <p style={{ color: "var(--color-text-muted)", fontSize: "var(--fs-sm)" }}>
                 There's still room in this session.
             </p>
-            <Button type='button' size='block' onClick={onJoin}>Join session</Button>
+            <Button type='button' size='block' disabled={isActing} onClick={onJoin}>
+                {isActing ? 'Joining...' : 'Join session'}
+            </Button>
         </aside>
     );
 }

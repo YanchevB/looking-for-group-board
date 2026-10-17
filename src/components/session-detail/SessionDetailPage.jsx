@@ -23,6 +23,7 @@ export default function SessionDetailPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [actionError, setActionError] = useState(null);
     const [refreshKey, setRefreshKey] = useState(0);
+    const [isActing, setIsActing] = useState(false);
 
     const { user } = useAuth();
 
@@ -67,6 +68,7 @@ export default function SessionDetailPage() {
             .finally(() => {
                 if (!abortController.signal.aborted) {
                     setIsLoading(false);
+                    setIsActing(false);
                 }
             });
 
@@ -97,36 +99,52 @@ export default function SessionDetailPage() {
 
         navigate('/catalog');
     }
+    // TODO: Add isActing state to disable button while processing the request
+    // Just put it in a try/catch and change states in between, pass the state to button
 
     const joinHandler = async () => {
         setActionError(null);
-        const { error: joinError } = await supabase
-            .from('session_players')
-            .insert({ session_id: id });
+        setIsActing(true);
 
-        if (joinError) {
-            setActionError(joinError.message);
-            return;
+        try {
+            const { error: joinError } = await supabase
+                .from('session_players')
+                .insert({ session_id: id });
+
+            if (joinError) {
+                setActionError(joinError.message);
+                return;
+            }
+
+            setRefreshKey((k) => k + 1);
+        } catch (error) {
+            setActionError(error.message);
+            setIsActing(false);
         }
-
-        setRefreshKey((k) => k + 1);
     }
 
     const leaveHandler = async () => {
         setActionError(null);
-        const { error: leaveError } = await supabase
-            .from('session_players')
-            .delete()
-            .eq('session_id', id)
-            .eq('user_id', user.id);
+        setIsActing(true);
 
-        if (leaveError) {
-            setActionError(leaveError.message);
-            return;
+        try {
+            const { error: leaveError } = await supabase
+                .from('session_players')
+                .delete()
+                .eq('session_id', id)
+                .eq('user_id', user.id);
+
+            if (leaveError) {
+                setActionError(leaveError.message);
+                return;
+            }
+            setRefreshKey((k) => k + 1);
+        } catch (error) {
+            setActionError(error.message);
+            setIsActing(false);
         }
-
-        setRefreshKey((k) => k + 1);
     }
+
 
     const closeSessionHandler = async () => {
 
@@ -200,6 +218,7 @@ export default function SessionDetailPage() {
                                 isMember={isMember} 
                                 isFull={isFull} 
                                 error={actionError}
+                                isActing={isActing}
                                 onDelete={deleteHandler}
                                 onJoin={joinHandler}
                                 onLeave={leaveHandler}
