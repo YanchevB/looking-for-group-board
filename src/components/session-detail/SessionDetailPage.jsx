@@ -18,9 +18,12 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 export default function SessionDetailPage() {
     const { id } = useParams();
     const navigate = useNavigate();
+
     const [session, setSession] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [actionError, setActionError] = useState(null);
+    const [refreshKey, setRefreshKey] = useState(0);
+
     const { user } = useAuth();
 
     useEffect(() => {
@@ -70,7 +73,7 @@ export default function SessionDetailPage() {
         return () => {
             abortController.abort();
         }
-    }, [id, navigate]);
+    }, [id, navigate, refreshKey]);
 
     const isOwner = user?.id === session.owner_id;
     const isMember = session.session_players?.some(player => player.user_id === user?.id);
@@ -95,10 +98,48 @@ export default function SessionDetailPage() {
         navigate('/catalog');
     }
 
+    const joinHandler = async () => {
+        setActionError(null);
+        const { error: joinError } = await supabase
+            .from('session_players')
+            .insert({ session_id: id });
+
+        if (joinError) {
+            setActionError(joinError.message);
+            return;
+        }
+
+        setRefreshKey((k) => k + 1);
+    }
+
+    const leaveHandler = async () => {
+        setActionError(null);
+        const { error: leaveError } = await supabase
+            .from('session_players')
+            .delete()
+            .eq('session_id', id)
+            .eq('user_id', user.id);
+
+        if (leaveError) {
+            setActionError(leaveError.message);
+            return;
+        }
+
+        setRefreshKey((k) => k + 1);
+    }
+
+    const closeSessionHandler = async () => {
+
+    }
+
+    const reopenSessionHandler = async () => {
+
+    }
+
     return (
         <main className="page-main">
             <div className="container">
-                <WipNote>Join/Leave and host controls aren't wired yet; comments are read-only.</WipNote>
+                <WipNote>Comments are read-only.</WipNote>
                 {isLoading && <Spinner />}
                 {!isLoading &&
                     <div className="session-details">
@@ -160,6 +201,8 @@ export default function SessionDetailPage() {
                                 isFull={isFull} 
                                 error={actionError}
                                 onDelete={deleteHandler}
+                                onJoin={joinHandler}
+                                onLeave={leaveHandler}
                             />
 
                         </div>
