@@ -29,12 +29,19 @@ export default function SessionCard({
                 <span className="session-card__meta-item">
                     <span className="session-card__slots">{playerCount} / {session?.slots}</span> players
                 </span>
-                {session?.mic_required && <span className="session-card__meta-item">
-                    <span className="session-card__mic-icon" aria-hidden="true">
-                        🎙️
-                    </span>{" "}
-                    Mic required
-                </span>}  
+                {session?.mic_required
+                    ? <span className="session-card__meta-item">
+                        <span className="session-card__mic-icon" aria-hidden="true">
+                            🎙️
+                        </span>{" "}
+                        Mic required
+                    </span>
+                    : <span class="session-card__meta-item">
+                        <span class="session-card__mic-icon" aria-hidden="true">
+                            🔇
+                        </span>
+                        No mic needed
+                    </span>}
             </div>
             <p className="session-card__description">
                 {session?.description}
