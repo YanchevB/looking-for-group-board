@@ -71,6 +71,8 @@ export default function SessionDetailPage() {
     }, [id, navigate]);
 
     const isOwner = user?.id === session.owner_id;
+    const isMember = session.session_players?.some(player => player.user_id === user?.id);
+    const isFull = session.session_players?.length >= session.slots;
 
     return (
         <main className="page-main">
@@ -130,7 +132,7 @@ export default function SessionDetailPage() {
 
                             </div>
 
-                            <SessionActions isOwner={isOwner} session={session} />
+                            <SessionActions isOwner={isOwner} isMember={isMember} isFull={isFull} session={session} />
 
                         </div>
                         {/* ================= COMMENTS ================= */}
