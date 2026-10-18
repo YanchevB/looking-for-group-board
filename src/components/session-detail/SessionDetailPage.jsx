@@ -87,17 +87,21 @@ export default function SessionDetailPage() {
         }
 
         setActionError(null);
-        const { error: deleteError } = await supabase
-            .from('sessions')
-            .delete()
-            .eq('id', session.id);
+        setIsActing(true);
 
-        if (deleteError) {
-            setActionError(deleteError.message);
-            return;
+        try {
+            const { error: deleteError } = await supabase
+                .from('sessions')
+                .delete()
+                .eq('id', session.id);
+
+            if (deleteError) throw deleteError;
+
+            navigate('/catalog');
+        } catch (error) {
+            setActionError(error.message);
+            setIsActing(false);
         }
-
-        navigate('/catalog');
     }
 
     const joinHandler = async () => {
@@ -109,10 +113,7 @@ export default function SessionDetailPage() {
                 .from('session_players')
                 .insert({ session_id: id });
 
-            if (joinError) {
-                setActionError(joinError.message);
-                return;
-            }
+            if (joinError) throw joinError;
 
             setRefreshKey((k) => k + 1);
         } catch (error) {
@@ -132,10 +133,7 @@ export default function SessionDetailPage() {
                 .eq('session_id', id)
                 .eq('user_id', user.id);
 
-            if (leaveError) {
-                setActionError(leaveError.message);
-                return;
-            }
+            if (leaveError) throw leaveError;
             setRefreshKey((k) => k + 1);
         } catch (error) {
             setActionError(error.message);
@@ -153,10 +151,7 @@ export default function SessionDetailPage() {
                 .update({ is_closed: true })
                 .eq('id', session.id)
 
-            if (closeError) {
-                setActionError(closeError.message);
-                return
-            }
+            if (closeError) throw closeError;
             setRefreshKey((k) => k + 1);
         } catch (error) {
             setActionError(error.message);
@@ -173,10 +168,7 @@ export default function SessionDetailPage() {
                 .from('sessions')
                 .update({ is_closed: false })
                 .eq('id', session.id)
-            if (openError) {
-                setActionError(openError.message);
-                return
-            }
+            if (openError) throw openError;
             setRefreshKey((k) => k + 1);
         } catch (error) {
             setActionError(error.message);
