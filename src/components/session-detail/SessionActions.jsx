@@ -28,10 +28,12 @@ export default function SessionActions({
                     <Button variant='secondary' size='block' to={`/edit/${session.id}`}>Edit session</Button>
                     <Button type='button' variant='secondary' size='block' onClick={session.is_closed ? onOpen : onClose} disabled={isActing}>
                         {isActing
-                            ? (session.is_closed ? 'Reopening session…' : 'Closing session…')
+                            ? (session.is_closed ? 'Reopening…' : 'Closing…')
                             : (session.is_closed ? 'Reopen session' : 'Close session')}
                     </Button>
-                    <Button type='button' variant='danger' size='block' onClick={onDelete}>Delete session</Button>
+                    <Button type='button' variant='danger' size='block' onClick={onDelete} disabled={isActing}>
+                        {isActing ? 'Deleting…' : 'Delete session'}
+                    </Button>
                 </div>
             </aside>
         );
@@ -58,7 +60,7 @@ export default function SessionActions({
                     You're in this session. See you in the lobby!
                 </p>
                 <Button type='button' variant='danger' size='block' disabled={isActing} onClick={onLeave}>
-                    {isActing ? 'Leaving...' : 'Leave session'}
+                    {isActing ? 'Leaving…' : 'Leave session'}
                 </Button>
             </aside>
         );
@@ -96,7 +98,7 @@ export default function SessionActions({
                 There's still room in this session.
             </p>
             <Button type='button' size='block' disabled={isActing} onClick={onJoin}>
-                {isActing ? 'Joining...' : 'Join session'}
+                {isActing ? 'Joining…' : 'Join session'}
             </Button>
         </aside>
     );
