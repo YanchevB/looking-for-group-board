@@ -143,13 +143,45 @@ export default function SessionDetailPage() {
         }
     }
 
-
     const closeSessionHandler = async () => {
+        setActionError(null);
+        setIsActing(true);
 
+        try {
+            const { error: closeError } = await supabase
+                .from('sessions')
+                .update({ is_closed: true })
+                .eq('id', session.id)
+
+            if (closeError) {
+                setActionError(closeError.message);
+                return
+            }
+            setRefreshKey((k) => k + 1);
+        } catch (error) {
+            setActionError(error.message);
+            setIsActing(false);
+        }
     }
 
-    const reopenSessionHandler = async () => {
-
+    const openSessionHandler = async () => {
+        setActionError(null);
+        setIsActing(true);
+        
+        try {
+            const { error: openError } = await supabase
+                .from('sessions')
+                .update({ is_closed: false })
+                .eq('id', session.id)
+            if (openError) {
+                setActionError(openError.message);
+                return
+            }
+            setRefreshKey((k) => k + 1);
+        } catch (error) {
+            setActionError(error.message);
+            setIsActing(false);
+        }
     }
 
     return (
@@ -220,6 +252,8 @@ export default function SessionDetailPage() {
                                 onDelete={deleteHandler}
                                 onJoin={joinHandler}
                                 onLeave={leaveHandler}
+                                onClose={closeSessionHandler}
+                                onOpen={openSessionHandler}
                             />
 
                         </div>

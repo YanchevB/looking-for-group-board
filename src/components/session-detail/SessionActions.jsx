@@ -1,12 +1,8 @@
 import './session-details.css';
 import Button from '../shared/Button';
-import supabase from '../../lib/supabase';
-import { useNavigate } from 'react-router';
-import { useState } from 'react';
 import ErrorMessage from '../shared/ErrorMessage';
 import useAuth from '../../hooks/useAuth';
 
-//TODO: Wire up Join, Leave and Close/Reopen handlers (refresh the session after each one)
 export default function SessionActions({
     session,
     isOwner,
@@ -16,7 +12,9 @@ export default function SessionActions({
     isActing,
     onDelete,
     onJoin,
-    onLeave
+    onLeave,
+    onClose,
+    onOpen
 }) {
     const { user } = useAuth();
 
@@ -28,8 +26,10 @@ export default function SessionActions({
                 {error && <ErrorMessage title="Something went wrong" text={error} />}
                 <div className="session-details__owner-actions">
                     <Button variant='secondary' size='block' to={`/edit/${session.id}`}>Edit session</Button>
-                    <Button type='button' variant='secondary' size='block'>
-                        {session.is_closed ? 'Reopen session' : 'Close session'}
+                    <Button type='button' variant='secondary' size='block' onClick={session.is_closed ? onOpen : onClose} disabled={isActing}>
+                        {isActing
+                            ? (session.is_closed ? 'Reopening session…' : 'Closing session…')
+                            : (session.is_closed ? 'Reopen session' : 'Close session')}
                     </Button>
                     <Button type='button' variant='danger' size='block' onClick={onDelete}>Delete session</Button>
                 </div>
