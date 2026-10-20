@@ -5,77 +5,40 @@ import SessionActions from './SessionActions';
 import CommentForm from './CommentForm';
 import CommentList from './CommentList';
 import StatusBadge from '../shared/StatusBadge';
-import { useNavigate, useParams } from 'react-router';
-import { useEffect, useState } from 'react';
+import { Navigate, useNavigate, useParams } from 'react-router';
+import { useState } from 'react';
 import Spinner from '../shared/Spinner';
 import WipNote from '../shared/WipNote';
 import supabase from '../../lib/supabase';
 import { timeAgo } from '../../utils/time';
 import useAuth from '../../hooks/useAuth';
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+import useFetch from '../../hooks/useFetch';
+import ErrorMessage from '../shared/ErrorMessage';
 
 export default function SessionDetailPage() {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const [session, setSession] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
     const [actionError, setActionError] = useState(null);
-    const [refreshKey, setRefreshKey] = useState(0);
     const [isActing, setIsActing] = useState(false);
 
     const { user } = useAuth();
 
-    useEffect(() => {
-        const abortController = new AbortController();
+    const { data, isLoading, error, refetch } =
+        useFetch(`sessions?id=eq.${id}&select=*,owner:profiles!owner_id(username),session_players(user_id,player:profiles!user_id(username)),comments(id,text,created_at,user_id,author:profiles!user_id(username))&comments.order=created_at.asc`);
 
-        fetch(`${BASE_URL}sessions?id=eq.${id}&select=*,owner:profiles!owner_id(username),session_players(user_id,player:profiles!user_id(username)),comments(id,text,created_at,user_id,author:profiles!user_id(username))&comments.order=created_at.asc`,
-            {
-                signal: abortController.signal,
-                headers: {
-                    'apiKey': import.meta.env.VITE_API_KEY
-                }
-            })
-            .then(res => {
-                // 400 = the id isn't a valid uuid, so treat it like "no session found"
-                if (res.status === 400) {
-                    return [];
-                }
+    const session = data?.[0] ?? {};
 
-                if (!res.ok) {
-                    throw new Error(`Request failed: ${res.status}`);
-                }
+    // Keep the action buttons disabled until the refetched data arrives, then re-enable them
+    const [prevData, setPrevData] = useState(data);
+    if (data !== prevData) {
+        setPrevData(data);
+        setIsActing(false);
+    }
 
-                return res.json()
-            })
-            .then(data => {
-                if (!data[0]) {
-                    navigate('/404');
-                    return;
-                }
-
-                setSession(data[0]);
-            })
-            .catch(err => {
-                // Aborted on unmount / id change (or StrictMode's dev remount) — not a real error
-                if (err.name === 'AbortError') {
-                    return;
-                }
-
-                alert(err);
-            })
-            .finally(() => {
-                if (!abortController.signal.aborted) {
-                    setIsLoading(false);
-                    setIsActing(false);
-                }
-            });
-
-        return () => {
-            abortController.abort();
-        }
-    }, [id, navigate, refreshKey]);
+    if (data && !data[0]) {
+        return <Navigate to="/404" replace />;
+    }
 
     const isOwner = user?.id === session.owner_id;
     const isMember = session.session_players?.some(player => player.user_id === user?.id);
@@ -115,7 +78,7 @@ export default function SessionDetailPage() {
 
             if (joinError) throw joinError;
 
-            setRefreshKey((k) => k + 1);
+            refetch();
         } catch (error) {
             setActionError(error.message);
             setIsActing(false);
@@ -134,7 +97,7 @@ export default function SessionDetailPage() {
                 .eq('user_id', user.id);
 
             if (leaveError) throw leaveError;
-            setRefreshKey((k) => k + 1);
+            refetch();
         } catch (error) {
             setActionError(error.message);
             setIsActing(false);
@@ -152,7 +115,7 @@ export default function SessionDetailPage() {
                 .eq('id', session.id)
 
             if (closeError) throw closeError;
-            setRefreshKey((k) => k + 1);
+            refetch();
         } catch (error) {
             setActionError(error.message);
             setIsActing(false);
@@ -169,7 +132,7 @@ export default function SessionDetailPage() {
                 .update({ is_closed: false })
                 .eq('id', session.id)
             if (openError) throw openError;
-            setRefreshKey((k) => k + 1);
+            refetch();
         } catch (error) {
             setActionError(error.message);
             setIsActing(false);
@@ -181,7 +144,8 @@ export default function SessionDetailPage() {
             <div className="container">
                 <WipNote>Comments are read-only.</WipNote>
                 {isLoading && <Spinner />}
-                {!isLoading &&
+                {!isLoading && error && <ErrorMessage text={error} />}
+                {!isLoading && !error &&
                     <div className="session-details">
                         <div className="session-details__header">
                             <div className="session-details__title-group">
