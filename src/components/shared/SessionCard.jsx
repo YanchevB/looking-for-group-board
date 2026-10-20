@@ -36,8 +36,8 @@ export default function SessionCard({
                         </span>{" "}
                         Mic required
                     </span>
-                    : <span class="session-card__meta-item">
-                        <span class="session-card__mic-icon" aria-hidden="true">
+                    : <span className="session-card__meta-item">
+                        <span className="session-card__mic-icon" aria-hidden="true">
                             🔇
                         </span>
                         No mic needed
