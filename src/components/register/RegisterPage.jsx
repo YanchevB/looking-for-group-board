@@ -5,10 +5,6 @@ import supabase from '../../lib/supabase';
 import registerValidate from '../../utils/registerValidate';
 import useForm from '../../hooks/useForm';
 
-//TODO: Check if the username is taken before signing up (query profiles by username)
-// and set fieldError.username to "Username is already taken" instead of
-// showing Supabase's generic "Database error saving new user" banner
-
 export default function RegisterPage() {
     const navigate = useNavigate();
 
@@ -17,6 +13,22 @@ export default function RegisterPage() {
             { email:'', username: '', password: '', passwordRepeat: '' },
             registerValidate, 
             async (values) => {
+                // Check before signing up — otherwise the profiles UNIQUE constraint fails inside the
+                // signup trigger and Supabase only returns a generic "Database error saving new user"
+                const { data: takenProfile, error: profileError } = await supabase
+                    .from('profiles')
+                    .select('id')
+                    .eq('username', values.username)
+                    .maybeSingle();
+
+                if (profileError) {
+                    throw profileError;
+                }
+
+                if (takenProfile) {
+                    return { username: 'Username is already taken!' };
+                }
+
                 const { error: signUpError } = await supabase.auth.signUp({
                     email: values.email,
                     password: values.password,

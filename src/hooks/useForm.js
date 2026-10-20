@@ -28,7 +28,12 @@ export default function useForm(initialValues, validate, onSubmit) {
         }
 
         try {
-            await onSubmit(formData);
+            // onSubmit can return field errors that only the server can detect (e.g. a taken username)
+            const submitErrors = await onSubmit(formData);
+
+            if (submitErrors) {
+                setFieldError(submitErrors);
+            }
         } catch (err) {
             setError(err.message);
         } finally {
