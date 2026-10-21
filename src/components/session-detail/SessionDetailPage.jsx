@@ -8,7 +8,6 @@ import StatusBadge from '../shared/StatusBadge';
 import { Navigate, useNavigate, useParams } from 'react-router';
 import { useState } from 'react';
 import Spinner from '../shared/Spinner';
-import WipNote from '../shared/WipNote';
 import supabase from '../../lib/supabase';
 import { timeAgo } from '../../utils/time';
 import useAuth from '../../hooks/useAuth';
@@ -142,7 +141,6 @@ export default function SessionDetailPage() {
     return (
         <main className="page-main">
             <div className="container">
-                <WipNote>Comments are read-only.</WipNote>
                 {isLoading && <Spinner />}
                 {!isLoading && error && <ErrorMessage text={error} />}
                 {!isLoading && !error &&
@@ -218,7 +216,7 @@ export default function SessionDetailPage() {
 
                             <CommentList comments={session.comments} ownerId={session.owner_id} />
 
-                            <CommentForm />
+                            <CommentForm sessionId={id} onPosted={refetch} />
 
                         </div>
                     </div>}
