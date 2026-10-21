@@ -18,7 +18,7 @@ export default function CatalogPage() {
                 {!isLoading && !error && sessions.length > 0 && 
                     <section className="section">
                         <div className="section__heading">
-                            <h1>Open sessions</h1>
+                            <h1>Current sessions</h1>
                             <Button to='/create' size='sm'>Host a session</Button>
                         </div>
                         <div className="session-grid">
