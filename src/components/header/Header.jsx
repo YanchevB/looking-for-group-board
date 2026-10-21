@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router';
+import { useState } from 'react';
 import Button from '../shared/Button';
 import './header.css';
 import useAuth from '../../hooks/useAuth';
@@ -8,10 +9,17 @@ import supabase from '../../lib/supabase';
 export default function Header() {
     const { user, isAuthenticated } = useAuth();
     const navigate = useNavigate();
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
 
     async function logoutHandler() {
-        await supabase.auth.signOut();
-        navigate('/');
+        setIsLoggingOut(true);
+
+        try {
+            await supabase.auth.signOut();
+            navigate('/');
+        } finally {
+            setIsLoggingOut(false);
+        }
     }
 
     return (
@@ -56,7 +64,9 @@ export default function Header() {
                                 {user.user_metadata.username}
                             </span>
 
-                            <Button type='button' variant='ghost' size='sm' onClick={logoutHandler}>Logout</Button>
+                            <Button type='button' variant='ghost' size='sm' onClick={logoutHandler} disabled={isLoggingOut}>
+                                {isLoggingOut ? 'Logging out…' : 'Logout'}
+                            </Button>
                         </>
                     }
                 </div>
