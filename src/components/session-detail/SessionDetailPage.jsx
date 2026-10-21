@@ -66,16 +66,15 @@ export default function SessionDetailPage() {
         }
     }
 
-    const joinHandler = async () => {
+    // Shared flow for actions that stay on the page: clear the old error, disable the buttons, refetch on success
+    const runAction = async (request) => {
         setActionError(null);
         setIsActing(true);
 
         try {
-            const { error: joinError } = await supabase
-                .from('session_players')
-                .insert({ session_id: id });
+            const { error: requestError } = await request();
 
-            if (joinError) throw joinError;
+            if (requestError) throw requestError;
 
             refetch();
         } catch (error) {
@@ -84,59 +83,29 @@ export default function SessionDetailPage() {
         }
     }
 
-    const leaveHandler = async () => {
-        setActionError(null);
-        setIsActing(true);
+    const joinHandler = () => runAction(() =>
+        supabase
+            .from('session_players')
+            .insert({ session_id: id }));
 
-        try {
-            const { error: leaveError } = await supabase
-                .from('session_players')
-                .delete()
-                .eq('session_id', id)
-                .eq('user_id', user.id);
+    const leaveHandler = () => runAction(() =>
+        supabase
+            .from('session_players')
+            .delete()
+            .eq('session_id', id)
+            .eq('user_id', user.id));
 
-            if (leaveError) throw leaveError;
-            refetch();
-        } catch (error) {
-            setActionError(error.message);
-            setIsActing(false);
-        }
-    }
+    const closeSessionHandler = () => runAction(() =>
+        supabase
+            .from('sessions')
+            .update({ is_closed: true })
+            .eq('id', session.id));
 
-    const closeSessionHandler = async () => {
-        setActionError(null);
-        setIsActing(true);
-
-        try {
-            const { error: closeError } = await supabase
-                .from('sessions')
-                .update({ is_closed: true })
-                .eq('id', session.id)
-
-            if (closeError) throw closeError;
-            refetch();
-        } catch (error) {
-            setActionError(error.message);
-            setIsActing(false);
-        }
-    }
-
-    const openSessionHandler = async () => {
-        setActionError(null);
-        setIsActing(true);
-        
-        try {
-            const { error: openError } = await supabase
-                .from('sessions')
-                .update({ is_closed: false })
-                .eq('id', session.id)
-            if (openError) throw openError;
-            refetch();
-        } catch (error) {
-            setActionError(error.message);
-            setIsActing(false);
-        }
-    }
+    const openSessionHandler = () => runAction(() =>
+        supabase
+            .from('sessions')
+            .update({ is_closed: false })
+            .eq('id', session.id));
 
     return (
         <main className="page-main">
