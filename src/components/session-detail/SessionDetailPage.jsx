@@ -21,6 +21,10 @@ export default function SessionDetailPage() {
     const [actionError, setActionError] = useState(null);
     const [isActing, setIsActing] = useState(false);
 
+    // Comments keep their own error/pending state so they don't show up in (or disable) the action area
+    const [commentError, setCommentError] = useState(null);
+    const [deletingCommentId, setDeletingCommentId] = useState(null);
+
     const { user } = useAuth();
 
     const { data, isLoading, error, refetch } =
@@ -33,6 +37,7 @@ export default function SessionDetailPage() {
     if (data !== prevData) {
         setPrevData(data);
         setIsActing(false);
+        setDeletingCommentId(null);
     }
 
     if (data && !data[0]) {
@@ -107,6 +112,29 @@ export default function SessionDetailPage() {
             .update({ is_closed: false })
             .eq('id', session.id));
 
+    const deleteCommentHandler = async (commentId) => {
+        if (!confirm('Are you sure you want to delete this comment?')) {
+            return;
+        }
+
+        setCommentError(null);
+        setDeletingCommentId(commentId);
+
+        try {
+            const { error: deleteError } = await supabase
+                .from('comments')
+                .delete()
+                .eq('id', commentId);
+
+            if (deleteError) throw deleteError;
+
+            refetch();
+        } catch (error) {
+            setCommentError(error.message);
+            setDeletingCommentId(null);
+        }
+    }
+
     return (
         <main className="page-main">
             <div className="container">
@@ -173,7 +201,14 @@ export default function SessionDetailPage() {
                         {/* ================= COMMENTS ================= */}
                         <div className="session-details__section">
 
-                            <CommentList comments={session.comments} ownerId={session.owner_id} />
+                            <CommentList
+                                comments={session.comments}
+                                ownerId={session.owner_id}
+                                userId={user?.id}
+                                deletingCommentId={deletingCommentId}
+                                error={commentError}
+                                onDelete={deleteCommentHandler}
+                            />
 
                             <CommentForm sessionId={id} onPosted={refetch} />
 

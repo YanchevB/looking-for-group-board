@@ -3,9 +3,11 @@ import { timeAgo } from '../../utils/time';
 import './comments.css';
 
 export default function Comment({
-    //TODO: Implement this better
     comment,
-    isHost
+    isHost,
+    isAuthor,
+    isDeleting,
+    onDelete
 }) {
     return (
         <div className={`comment${isHost ? ' comment--host' : ''}`}>
@@ -18,14 +20,14 @@ export default function Comment({
                 <p className="comment__text">
                     {comment.text}
                 </p>
+                {isAuthor && (
+                    <div className="comment__footer">
+                        <button type="button" className="comment__delete" disabled={isDeleting} onClick={() => onDelete(comment.id)}>
+                            {isDeleting ? 'Deleting…' : 'Delete'}
+                        </button>
+                    </div>
+                )}
             </div>
-            {/* {comment.isOwner && (
-                <div className="comment__footer">
-                    <button type="button" className="comment__delete">
-                        Delete
-                    </button>
-                </div>
-            )} */}
         </div>
     );
 }
