@@ -1,4 +1,3 @@
-//TODO: Change imports once individual components are created
 import '../shared/feedback.css';
 import Button from '../shared/Button';
 import SessionCard from '../shared/SessionCard';

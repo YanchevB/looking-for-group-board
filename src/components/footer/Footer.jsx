@@ -1,4 +1,3 @@
-//TODO (last, Sat Oct 24): uncomment the links below and switch them to <Link>s for the final routes
 import './footer.css';
 
 export default function Footer() {
