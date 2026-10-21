@@ -14,6 +14,7 @@ dist-ssr
 docs
 .env.local
 *.docx
+design
 
 # Editor directories and files
 .vscode/*
