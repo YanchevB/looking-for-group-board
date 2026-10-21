@@ -1,4 +1,3 @@
-//TODO: Add other variants for action area
 import './session-details.css';
 import PlayerList from './PlayerList';
 import SessionActions from './SessionActions';
@@ -10,6 +9,7 @@ import { useState } from 'react';
 import Spinner from '../shared/Spinner';
 import supabase from '../../lib/supabase';
 import { timeAgo } from '../../utils/time';
+import { getSessionStatus } from '../../utils/sessionStatus';
 import useAuth from '../../hooks/useAuth';
 import useFetch from '../../hooks/useFetch';
 import ErrorMessage from '../shared/ErrorMessage';
@@ -119,17 +119,7 @@ export default function SessionDetailPage() {
                                 <h1 className="session-details__title">{session.game}</h1>
                                 <span className="session-details__platform">{session.platform}</span>
                             </div>
-                            {/* TODO (Tue Oct 20, My Sessions): extract the open/full/closed rule into a utils helper (e.g. getSessionStatus) shared by SessionCard and SessionDetailPage */}
-                            {!session.is_closed &&
-                                session.session_players?.length < session.slots &&
-                                <StatusBadge sessionStatus='open' />}
-
-                            {!session.is_closed &&
-                                session.session_players?.length >= session.slots &&
-                                <StatusBadge sessionStatus='full' />}
-
-                            {session.is_closed &&
-                                <StatusBadge sessionStatus='closed' />}
+                            <StatusBadge sessionStatus={getSessionStatus(session, session.session_players?.length)} />
                         </div>
                         <div className="session-details__meta">
                             <span className="session-details__meta-item">

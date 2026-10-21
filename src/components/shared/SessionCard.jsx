@@ -1,20 +1,14 @@
 import './session-card.css'
 import Button from './Button';
 import StatusBadge from './StatusBadge';
+import { getSessionStatus } from '../../utils/sessionStatus';
 
 export default function SessionCard({
     session,
     actionLabel = 'View'
 }) {
-    //TODO (Tue Oct 20, My Sessions): extract the open/full/closed rule into a utils helper (e.g. getSessionStatus) shared by SessionCard and SessionDetailPage
     const playerCount = session?.session_players[0].count;
-    let sessionStatus = 'open';
-
-    if (session?.is_closed) {
-        sessionStatus = 'closed';
-    } else if (playerCount >= session?.slots) {
-        sessionStatus = 'full';
-    }
+    const sessionStatus = getSessionStatus(session, playerCount);
 
     return (
         <article className={`session-card session-card--${sessionStatus}`}>
