@@ -8,7 +8,7 @@ import useFetch from '../../hooks/useFetch';
 
 export default function CatalogPage() {
     const { data: sessions, isLoading, error } =
-        useFetch('sessions?select=*,owner:profiles!owner_id(username),session_players(count)');
+        useFetch('sessions?select=*,owner:profiles!owner_id(username),session_players(count)&order=created_at.desc');
 
     return (
         <main className="page-main">
