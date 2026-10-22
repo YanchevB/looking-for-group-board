@@ -75,7 +75,7 @@ export default function HomePage() {
                                 3. Play together
                             </h3>
                             <p>
-                                Close the session once you start playing so it drops off the board.
+                                Close the session once you start playing so it stops other players from joining in.
                             </p>
                         </div>
                     </div>
