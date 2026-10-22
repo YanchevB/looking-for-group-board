@@ -26,8 +26,7 @@ export default function HomePage() {
                         }}
                     >
                         LFG Board is where gamers host quick sessions and others jump in. Pick a
-                        game, set your open slots, and get playing in minutes — no Discord
-                        server required.
+                        game, set your open slots, and agree in the comments on where you want to meet, play and talk - simple and easy.
                     </p>
                     <div className="btn-group" style={{ justifyContent: "center" }}>
                         <Button to='/catalog' size='lg'>Browse sessions</Button>
@@ -75,7 +74,7 @@ export default function HomePage() {
                                 3. Play together
                             </h3>
                             <p>
-                                Close the session once you start playing so it stops other players from joining in.
+                                Close the session once you start playing to let others you've already started.
                             </p>
                         </div>
                     </div>
