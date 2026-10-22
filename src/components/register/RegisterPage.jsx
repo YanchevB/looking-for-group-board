@@ -40,6 +40,10 @@ export default function RegisterPage() {
                 });
 
                 if (signUpError) {
+                    if (signUpError.code === 'user_already_exists') {
+                        return { email: 'Email is already registered!' };
+                    }
+
                     throw signUpError;
                 }
 
