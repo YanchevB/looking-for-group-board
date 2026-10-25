@@ -74,7 +74,7 @@ export default function HomePage() {
                                 3. Play together
                             </h3>
                             <p>
-                                Close the session once you start playing to let others you've already started.
+                                Close the session once you start playing to let others know you've already started.
                             </p>
                         </div>
                     </div>
