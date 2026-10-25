@@ -225,7 +225,7 @@ src/
     ├── my-sessions/          # MySessionsPage
     ├── not-found/            # 404 not found page
     ├── session-detail/       # SessionDetailPage + SessionActions, PlayerList, CommentList, Comment, CommentForm
-    └── shared/               # Button, SessionCard, SessionForm, StatusBadge, Spinner, ErrorMessage, EmptyState
+    └── shared/               # Button, SessionCard, SessionForm, FormField, FormBanner, StatusBadge, Spinner, ErrorMessage, EmptyState
 ```
 
 Each feature folder holds its page component and any components only that page uses, next to their CSS file. Components used by more than one page live in `shared/`.
@@ -242,6 +242,8 @@ Each feature folder holds its page component and any components only that page u
    - `ErrorMessage` is an alert box (`role="alert"`) with a title and text, shown when a request fails.
    - `SessionCard` shows one session in a list: game, platform, status badge, players / slots, mic requirement, description, host and a button to its details page. `actionLabel` sets the button text ("View" by default, "Manage" in the Hosting list on My Sessions).
    - `SessionForm` is the same form for Create and Edit. It only renders: values, errors and handlers come in as props from `useForm`, and `title` / `submitLabel` / `cancelTo` change between the two pages.
+   - `FormField` is one label + `<input>` + error message (or `hint` when there is no error). `error` adds the red border and the message; `invalid` adds only the border (Login uses it, since its messages go in the banner). Every other prop (`type`, `name`, `value`, `onChange`, ...) goes straight to the `<input>`. Used by Login, Register and `SessionForm`.
+   - `FormBanner` is the red error banner (`role="alert"`) shown at the top of a form. Used by Login, Register, `SessionForm` and `CommentForm`.
    - `Spinner` is the loading indicator (`role="status"`) with an optional message. Pages and route guards show it while data or auth is loading.
    - `StatusBadge` is the colored Open / Full / Closed pill. It gets the value from `getSessionStatus`.
 
@@ -252,7 +254,7 @@ Each feature folder holds its page component and any components only that page u
 | Logged-in user | `AuthContext` (global), filled by Supabase's `onAuthStateChange` listener |
 | Server data (sessions, players, comments) | Local to each page through `useFetch`; refreshed with `refetch()` after a write |
 | Form values, field errors, submitting flag | Local to each form through `useForm` |
-| Pending actions (`isActing`, deleting comment id) | Local `useState` in `SessionDetailPage` |
+| Pending actions (`pendingAction`: which session action is running, or `null`; deleting comment id) | Local `useState` in `SessionDetailPage` |
 
 There is no global store for server data. Each page fetches what it shows, so the data is always fresh when you navigate.
 
@@ -276,7 +278,7 @@ auth.users ──1:1── profiles ──1:N── sessions ──1:N── com
 - **The host is a normal player row.** Creating a session also inserts the host into `session_players`, so player counts and lists need no special case for the host.
 - **Related data in one request.** PostgREST embeds load the host username, player count, players and comments together with the sessions, so a page doesn't make a separate request for each card or player. The only page with two requests is My Sessions (Hosting and Joined).
 - **Security is enforced in the database.** UI checks (hiding Edit/Delete, redirecting non-owners) are only for usability. RLS policies stop anyone from changing another user's data, even through the API directly.
-- **Abstractions only after repetition.** `useForm`, `useFetch`, `SessionForm` and `getSessionStatus` were extracted only once the same logic appeared in several places.
+- **Abstractions only after repetition.** `useForm`, `useFetch`, `SessionForm`, `FormField`, `FormBanner` and `getSessionStatus` were extracted only once the same logic or markup appeared in several places.
 
 ---
 
@@ -423,7 +425,7 @@ All of these use `useFetch`, which returns `data`, `isLoading`, `error` and `ref
 4. **Edit session** - same form as Create (shared `SessionForm` component), prefilled
 5. **Comment** - text
 
-All forms are controlled components built on the custom `useForm` hook. Invalid fields get a red border and a message under them; server errors appear in a banner at the top; the submit button is disabled while submitting.
+All forms are controlled components built on the custom `useForm` hook. Invalid fields get a red border and a message under them (`FormField`); server errors appear in a banner at the top (`FormBanner`); the submit button is disabled while submitting.
 
 ### Validation Rules
 
@@ -454,7 +456,7 @@ All forms are controlled components built on the custom `useForm` hook. Invalid 
 
 ### Component Styling
 
-Plain CSS files with BEM-style class names (e.g. `session-card__header`, `form__input--invalid`). `src/base.css` defines design tokens as CSS custom properties (colors, spacing, font sizes) plus layout helpers; each component imports its own stylesheet (`header.css`, `session-card.css`, `form.css`, ...). Font: Inter from Google Fonts. No CSS framework.
+Plain CSS files with BEM-style class names (e.g. `session-card__header`, `form__input--invalid`). `src/base.css` defines design tokens as CSS custom properties (colors, spacing, font sizes) plus layout helpers and modifiers (`.container--narrow` for Login/Register, `.container--form` for Create/Edit, `.surface--padded`); each component imports its own stylesheet (`header.css`, `session-card.css`, `form.css`, `home.css`, ...). Login and Register share `shared/auth.css`. There are no inline `style` props: every style lives in a CSS file, so media queries and hover states work everywhere. Font: Inter from Google Fonts. No CSS framework.
 
 ## 10. Typical User Flow
 
