@@ -95,14 +95,3 @@
   color: var(--color-text-muted);
   max-width: 32ch;
 }
-
-/* Temporary note on pages that aren't fully wired yet (remove with the feature) */
-.wip-note {
-  font-size: var(--fs-sm);
-  color: var(--color-text-muted);
-  background-color: var(--color-bg-elevated-2);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--space-3);
-  margin-bottom: var(--space-5);
-}

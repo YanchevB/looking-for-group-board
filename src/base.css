@@ -276,20 +276,3 @@ textarea:focus-visible,
 .surface--padded {
   padding: var(--space-6);
 }
-
-/* Mockup-only label used to separate states inside one HTML file.
-   Not part of the production component set. */
-.mockup-note {
-  font-size: var(--fs-sm);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--color-text-faint);
-  margin: var(--space-6) 0 var(--space-3);
-  padding-top: var(--space-5);
-  border-top: 1px dashed var(--color-border);
-}
-
-.mockup-note:first-child {
-  border-top: none;
-  padding-top: 0;
-}
