@@ -5,6 +5,11 @@
    the add-comment form.
    ========================================================================== */
 
+/* Page heading above a form card (Create / Edit session) */
+.form-title {
+  margin-bottom: var(--space-5);
+}
+
 .form {
   display: flex;
   flex-direction: column;

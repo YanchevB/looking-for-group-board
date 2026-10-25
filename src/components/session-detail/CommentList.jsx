@@ -17,9 +17,7 @@ export default function CommentList({
             <div className="comments__list">
 
                 {comments.length === 0 &&
-                    <p style={{ color: "var(--color-text-muted)", fontSize: "var(--fs-sm)" }}>
-                        No comments yet.
-                    </p>}
+                    <p className="comments__empty">No comments yet.</p>}
 
                 {comments.map(comment =>
                     <Comment

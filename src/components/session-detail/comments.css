@@ -21,6 +21,11 @@
   gap: var(--space-3);
 }
 
+.comments__empty {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+}
+
 .comment {
   display: flex;
   gap: var(--space-3);

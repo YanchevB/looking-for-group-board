@@ -1,4 +1,5 @@
 import '../shared/feedback.css';
+import './my-sessions.css';
 import Button from '../shared/Button';
 import SessionCard from '../shared/SessionCard';
 import EmptyState from '../shared/EmptyState';
@@ -24,7 +25,7 @@ export default function MySessionsPage() {
     return (
         <main className="page-main">
             <div className="container">
-                <h1 style={{ marginBottom: "var(--space-6)" }}>My sessions</h1>
+                <h1 className="my-sessions__title">My sessions</h1>
 
                 {isLoading && <Spinner />}
                 {!isLoading && error && <ErrorMessage text={error} />}
@@ -35,7 +36,7 @@ export default function MySessionsPage() {
                             {hosting.data.length > 0 && 
                                 <Button to='/create' size='sm'>Host a session</Button>
                             } 
-                            
+                        
                         </div>
 
                         {hosting.data.length > 0

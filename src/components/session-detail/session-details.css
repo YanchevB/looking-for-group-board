@@ -85,6 +85,13 @@
   color: var(--color-text-muted);
 }
 
+/* Left column: description + player list */
+.session-details__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
 /* Player list */
 .session-details__players {
   display: flex;
@@ -146,6 +153,12 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--color-text-faint);
+}
+
+/* Short status line inside the action panel, e.g. "You're in this session" */
+.session-details__actions-text {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
 }
 
 /* Informational notice inside the action panel, e.g. "log in to join"

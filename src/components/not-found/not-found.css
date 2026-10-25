@@ -1,0 +1,25 @@
+/* ==========================================================================
+   NOT-FOUND.CSS
+   The 404 page.
+   ========================================================================== */
+
+.not-found {
+  text-align: center;
+  padding-block: var(--space-8);
+}
+
+.not-found__code {
+  font-size: var(--fs-2xl);
+  font-weight: 800;
+  color: var(--color-accent);
+  margin-bottom: var(--space-2);
+}
+
+.not-found__title {
+  margin-bottom: var(--space-3);
+}
+
+.not-found__text {
+  max-width: 40ch;
+  margin: 0 auto var(--space-6);
+}

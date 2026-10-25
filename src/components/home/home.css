@@ -1,0 +1,40 @@
+/* ==========================================================================
+   HOME.CSS
+   Hero section and the "How it works" steps on the home page.
+   ========================================================================== */
+
+.home-hero {
+  text-align: center;
+  padding-block: var(--space-7) var(--space-6);
+}
+
+.home-hero__title {
+  max-width: 20ch;
+  margin-inline: auto;
+}
+
+.home-hero__text {
+  max-width: 48ch;
+  margin: var(--space-4) auto var(--space-6);
+  font-size: var(--fs-md);
+}
+
+.home-steps__heading {
+  justify-content: center;
+  text-align: center;
+}
+
+.home-steps__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.home-step {
+  padding: var(--space-5);
+}
+
+.home-step__title {
+  font-size: var(--fs-md);
+  margin-bottom: var(--space-2);
+}
