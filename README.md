@@ -23,7 +23,7 @@ Built with **React 19 + Vite**, **React Router 7** and **Supabase** (Postgres da
 ### Installation
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/YanchevB/looking-for-group-board.git
 cd looking-for-group-board
 npm install
 ```
@@ -448,7 +448,7 @@ All forms are controlled components built on the custom `useForm` hook. Invalid 
   - `useAuth()` - reads `user`, `isAuthenticated`, `isAuthReady` from `AuthContext`.
   - `useFetch(path)` - fetches from the Supabase REST API; returns `data`, `isLoading`, `error`, `refetch`.
   - `useForm(initialValues, validate, onSubmit)` - controlled form state, change handler (checkbox-aware), field errors, banner error and `isSubmitting`.
-- **Mount / update / unmount example:** In `useFetch`, the effect runs on **mount** and starts a request with an `AbortController`. It runs again on **update** when the URL changes (e.g. navigating from one session's details to another) or when `refetch()` is called. On **unmount** (or before the next run) the cleanup aborts the pending request, so a late response never updates a component that is gone or showing different data. `AuthProvider` does the same with the auth listener: subscribes on mount, unsubscribes in the cleanup.
+- **Mount / update / unmount example:** In `useFetch`, the effect runs on **mount** and starts a request with an `AbortController`. It runs again on **update** when `refetch()` is called (e.g. after joining, leaving or closing a session on the details page) or when the URL changes. On **unmount** (or before the next run) the cleanup aborts the pending request, so a late response never updates a component that is gone or showing different data. `AuthProvider` does the same with the auth listener: subscribes on mount, unsubscribes in the cleanup.
 
 ### Context API
 
