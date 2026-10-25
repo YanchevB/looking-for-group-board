@@ -14,7 +14,6 @@ export default function useForm(initialValues, validate, onSubmit) {
         });
     }
 
-    // Back to the starting values with old errors cleared; onSubmit gets it to clear the form after a successful submit
     const reset = () => {
         setFormData(initialValues);
         setFieldError(null);

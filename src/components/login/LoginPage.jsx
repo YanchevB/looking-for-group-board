@@ -43,7 +43,6 @@ export default function LoginPage() {
                     <form className="form" onSubmit={submitHandler}>
                         {(fieldError?.banner || error) && <FormBanner text={fieldError?.banner || error} />}
 
-                        {/* Login shows its messages in the banner, so the fields only get the red border */}
                         <FormField
                             id="login-email"
                             label="Email"

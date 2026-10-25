@@ -9,7 +9,6 @@ const UNITS = [
     ['minute', 60],
 ];
 
-// Turns a timestamp (e.g. Supabase's created_at) into "5 minutes ago", "yesterday", etc.
 export function timeAgo(timestamp) {
     const date = new Date(timestamp);
 

@@ -19,10 +19,8 @@ export default function SessionDetailPage() {
     const navigate = useNavigate();
 
     const [actionError, setActionError] = useState(null);
-    // Which action is running ('join' | 'leave' | 'close' | 'open' | 'delete'), or null
     const [pendingAction, setPendingAction] = useState(null);
 
-    // Comments keep their own error/pending state so they don't show up in (or disable) the action area
     const [commentError, setCommentError] = useState(null);
     const [deletingCommentId, setDeletingCommentId] = useState(null);
 
@@ -33,7 +31,7 @@ export default function SessionDetailPage() {
 
     const session = data?.[0] ?? {};
 
-    // Keep the action buttons disabled until the refetched data arrives, then re-enable them
+    // refetch() doesn't wait for the response, so the buttons are re-enabled here, once the new data is in
     const [prevData, setPrevData] = useState(data);
     if (data !== prevData) {
         setPrevData(data);
@@ -72,7 +70,6 @@ export default function SessionDetailPage() {
         }
     }
 
-    // Shared flow for actions that stay on the page: clear the old error, disable the buttons, refetch on success
     const runAction = async (action, request) => {
         setActionError(null);
         setPendingAction(action);
@@ -193,7 +190,6 @@ export default function SessionDetailPage() {
                             />
 
                         </div>
-                        {/* ================= COMMENTS ================= */}
                         <div className="session-details__section">
 
                             <CommentList

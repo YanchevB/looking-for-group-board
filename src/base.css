@@ -221,9 +221,9 @@ textarea:focus-visible,
   max-width: var(--container-width);
   margin-inline: auto;
   padding-inline: var(--space-4);
-  /* Most pages render .container directly under #root (no .page-main
-     wrapper), so it needs to be the flex item that grows and pushes
-     the footer down — see #root above. */
+  /* Pages wrap .container in .page-main, which already grows. This only
+     matters if a .container is ever rendered directly under #root: it
+     then grows the same way and still pushes the footer down. */
   flex: 1 0 auto;
 }
 

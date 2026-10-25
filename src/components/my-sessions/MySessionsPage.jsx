@@ -15,8 +15,6 @@ export default function MySessionsPage() {
     const { user } = useAuth();
 
     const hosting = useFetch(`sessions?owner_id=eq.${user.id}&${SESSION_SELECT}&${NEWEST_FIRST}`);
-    // `me` is a second, filtered embed of session_players: !inner keeps only sessions the user has a row in,
-    // while session_players(count) above still counts every player
     const joined = useFetch(`sessions?owner_id=neq.${user.id}&me.user_id=eq.${user.id}&${SESSION_SELECT},me:session_players!inner(user_id)&${NEWEST_FIRST}`);
 
     const isLoading = hosting.isLoading || joined.isLoading;

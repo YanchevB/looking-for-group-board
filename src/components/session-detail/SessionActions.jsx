@@ -17,10 +17,8 @@ export default function SessionActions({
     onOpen
 }) {
     const { user } = useAuth();
-    // Any running action disables every button; only the clicked one shows progress text
     const isActing = pendingAction !== null;
 
-    // Order matters: each check assumes the ones above it didn't match
     if (isOwner) {
         return (
             <aside className="session-details__actions surface">

@@ -16,8 +16,7 @@ export default function RegisterPage() {
             { email:'', username: '', password: '', passwordRepeat: '' },
             registerValidate, 
             async (values) => {
-                // Check before signing up — otherwise the profiles UNIQUE constraint fails inside the
-                // signup trigger and Supabase only returns a generic "Database error saving new user"
+                // Checked before signUp, because a taken username otherwise only comes back as "Database error saving new user"
                 const { data: takenProfile, error: profileError } = await supabase
                     .from('profiles')
                     .select('id')

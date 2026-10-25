@@ -1,8 +1,7 @@
 /* ==========================================================================
    HEADER.CSS
-   Top site navigation. Two content variants exist (guest / logged-in) —
-   both use the exact same classes, only the links inside change, so the
-   future React component can just swap the rendered <a>/<button> list.
+   Top site navigation. Guests and logged-in users get the same classes;
+   the Header component only swaps which links and buttons it renders.
    ========================================================================== */
 
 .site-header {

@@ -15,7 +15,6 @@ export default function CommentForm({
 
     const { formData, error, fieldError, isSubmitting, changeHandler, submitHandler } =
         useForm({ text: '' }, commentValidate, async ({ text }, reset) => {
-            // user_id is filled in by the database (default auth.uid())
             const { error: postError } = await supabase
                 .from('comments')
                 .insert({ session_id: sessionId, text: text.trim() });

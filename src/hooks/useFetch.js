@@ -8,7 +8,6 @@ export default function useFetch(path) {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [refreshKey, setRefreshKey] = useState(0);
-    // Loading = the current url hasn't finished yet. A refetch keeps the old data on screen instead of showing the spinner again
     const [loadedUrl, setLoadedUrl] = useState(null);
 
     useEffect(() => {
@@ -21,7 +20,7 @@ export default function useFetch(path) {
             }
         })
             .then(res => {
-                // 400 = an id filter got something that isn't a valid uuid, so treat it like "nothing found"
+                // A malformed id in the URL (not a valid uuid) gets a 400 - handle it the same as "not found"
                 if (res.status === 400) {
                     return [];
                 }
@@ -37,7 +36,6 @@ export default function useFetch(path) {
                 setError(null);
             })
             .catch(err => {
-                // Aborted on unmount / url change (or StrictMode's dev remount) — not a real error
                 if (err.name === 'AbortError') {
                     return;
                 }
