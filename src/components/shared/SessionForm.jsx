@@ -1,4 +1,6 @@
 import Button from "./Button";
+import FormBanner from "./FormBanner";
+import FormField from "./FormField";
 import './form.css';
 
 export default function SessionForm({
@@ -13,38 +15,25 @@ export default function SessionForm({
     cancelTo = '/catalog'
 }) {
     return (
-        <div className="container" style={{ maxWidth: 640 }}>
-            <section className="section surface" style={{ padding: "var(--space-6)" }}>
-                <h1 style={{ marginBottom: "var(--space-5)" }}>{title}</h1>
+        <div className="container container--form">
+            <section className="section surface surface--padded">
+                <h1 className="form-title">{title}</h1>
                 <form className="form" onSubmit={onSubmit}>
-                    {fieldError && Object.keys(fieldError).length > 0 && (
-                        <div className="form__banner form__banner--error" role="alert">
-                            <span className="form__banner-icon" aria-hidden="true">⚠</span>
-                            <span>Please fix the highlighted fields before saving.</span>
-                        </div>
-                    )}
-                    {error && (
-                        <div className="form__banner form__banner--error" role="alert">
-                            <span className="form__banner-icon" aria-hidden="true">⚠</span>
-                            <span>{error}</span>
-                        </div>
-                    )}
-                    <div className="form__group">
-                        <label className="form__label" htmlFor="game">
-                            Game<span className="form__required">*</span>
-                        </label>
-                        <input
-                            className={fieldError?.game ? "form__input form__input--invalid" : "form__input"}
-                            type="text"
-                            id="game"
-                            name="game"
-                            onChange={onChange}
-                            value={session.game}
-                            placeholder="e.g. Valorant"
-                        />
-
-                        {fieldError?.game && <p className="form__error">{fieldError.game}</p>}
-                    </div>
+                    {fieldError && Object.keys(fieldError).length > 0 &&
+                        <FormBanner text='Please fix the highlighted fields before saving.' />
+                    }
+                    {error && <FormBanner text={error} />}
+                    <FormField
+                        id="game"
+                        label="Game"
+                        required
+                        error={fieldError?.game}
+                        type="text"
+                        name="game"
+                        onChange={onChange}
+                        value={session.game}
+                        placeholder="e.g. Valorant"
+                    />
                     <div className="form__group">
                         <label className="form__label" htmlFor="platform">
                             Platform<span className="form__required">*</span>
@@ -65,27 +54,20 @@ export default function SessionForm({
                         </select>
                         {fieldError?.platform && <p className="form__error">{fieldError.platform}</p>}
                     </div>
-                    <div className="form__group">
-                        <label className="form__label" htmlFor="slots">
-                            Open slots<span className="form__required">*</span>
-                        </label>
-                        <input
-                            className={fieldError?.slots ? "form__input form__input--invalid" : "form__input"}
-                            type="number"
-                            id="slots"
-                            name="slots"
-                            onChange={onChange}
-                            value={session.slots}
-                            min={2}
-                            max={8}
-                            placeholder="2–8"
-                        />
-                        {fieldError?.slots
-                            ? <p className="form__error">{fieldError.slots}</p>
-                            : <span className="form__hint">
-                                Total players allowed, including you (2–8).
-                            </span>}
-                    </div>
+                    <FormField
+                        id="slots"
+                        label="Open slots"
+                        required
+                        error={fieldError?.slots}
+                        hint="Total players allowed, including you (2–8)."
+                        type="number"
+                        name="slots"
+                        onChange={onChange}
+                        value={session.slots}
+                        min={2}
+                        max={8}
+                        placeholder="2–8"
+                    />
                     <div className="form__group">
                         <div className="form__checkbox-row">
                             <input className="form__checkbox" type="checkbox" id="mic" name="mic_required" checked={session.mic_required} onChange={onChange} />

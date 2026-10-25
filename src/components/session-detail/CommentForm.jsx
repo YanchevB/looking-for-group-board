@@ -1,6 +1,7 @@
 import './comments.css';
 import '../shared/form.css';
 import Button from '../shared/Button';
+import FormBanner from '../shared/FormBanner';
 import supabase from '../../lib/supabase';
 import useAuth from '../../hooks/useAuth';
 import useForm from '../../hooks/useForm';
@@ -36,12 +37,7 @@ export default function CommentForm({
 
     return (
         <form className="comments__form" onSubmit={submitHandler}>
-            {error && (
-                <div className="form__banner form__banner--error" role="alert">
-                    <span className="form__banner-icon" aria-hidden="true">⚠</span>
-                    <span>{error}</span>
-                </div>
-            )}
+            {error && <FormBanner text={error} />}
             <div className="comments__form-row">
                 <label className="visually-hidden" htmlFor="comment-text">
                     Add a comment
