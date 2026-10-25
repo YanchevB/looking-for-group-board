@@ -190,7 +190,7 @@ The frontend is deployed on **Vercel** as a static Vite build. The three `VITE_`
 
 - **Frontend:** a single-page app built with React 19 and Vite. React Router handles client-side routing; Vercel serves the static build.
 - **Backend:** Supabase (Backend-as-a-Service). There is no custom server: the browser talks to Supabase directly, and Row Level Security in Postgres decides who may change what.
-- **Reads** use plain `fetch` against the PostgREST API (`useFetch`) with the publishable key, as the anonymous role (all tables are publicly readable).
+- **Reads** use plain `fetch` against the PostgREST API (`useFetch`) with the publishable key, as the anonymous role (all tables are publicly readable). The one exception is the username availability check on Register, which goes through the SDK.
 - **Writes and auth** use the `supabase-js` SDK, which attaches the logged-in user's JWT so RLS can check `auth.uid()`.
 
 ## Folder structure
@@ -215,12 +215,15 @@ src/
 │   ├── time.js               # timeAgo ("5 minutes ago")
 │   └── extractInitial.js     # Avatar letter from a username
 └── components/
-    ├── guards/               # PrivateRoute, GuestRoute (layout routes with <Outlet />)
-    ├── header/, footer/      # Site chrome, rendered on every page
-    ├── home/, catalog/, my-sessions/, not-found/
-    ├── login/, register/
+    ├── catalog/              # main catalog
     ├── create-session/       # CreateSessionPage
     ├── edit-session/         # EditSessionPage (load + owner check) → EditSessionForm (form logic)
+    ├── footer/, header/      # Site chrome, rendered on every page
+    ├── guards/               # PrivateRoute, GuestRoute (layout routes with <Outlet />)
+    ├── home/                 # home page 
+    ├── login/, register/     # Login and register pages
+    ├── my-sessions/          # MySessionsPage
+    ├── not-found/            # 404 not found page
     ├── session-detail/       # SessionDetailPage + SessionActions, PlayerList, CommentList, Comment, CommentForm
     └── shared/               # Button, SessionCard, SessionForm, StatusBadge, Spinner, ErrorMessage, EmptyState
 ```
@@ -232,8 +235,15 @@ Each feature folder holds its page component and any components only that page u
 1. **App shell:** `main.jsx` sets up the providers; `App.jsx` renders `Header`, the routes and `Footer`.
 2. **Guards:** `PrivateRoute` and `GuestRoute` wrap groups of routes and redirect based on the auth context.
 3. **Pages:** one component per route. A page owns its data: it calls `useFetch`, runs the write handlers (join, delete, close, ...) and decides between loading / error / empty / content.
-4. **Feature components:** for example `SessionActions`, `PlayerList`, `CommentList`. They receive data and callbacks as props and render; `SessionActions` picks the right panel (owner / guest / member / closed / full / can join).
-5. **Shared UI:** small presentational components with no data fetching. `Button` renders a router `<Link>` when given `to`, otherwise a `<button>`. `SessionForm` is the same form for Create and Edit.
+4. **Feature components:** for example `SessionActions`, `PlayerList`, `CommentList`. They receive data and callbacks as props and render; `SessionActions` picks the right panel (owner / guest / member / closed / full / can join). `CommentForm` is the exception: it inserts the comment itself through `useForm` and then calls `onPosted` so the page refetches.
+5. **Shared UI:** small presentational components with no data fetching:
+   - `Button` renders a router `<Link>` when given `to`, otherwise a `<button>`. `variant` (primary / secondary / ghost / danger) and `size` (sm / lg / block) set its style.
+   - `EmptyState` shows an icon, a title, a short text and a call-to-action button. By default it says there are no sessions and links to `/create`. Every part can be changed through props.
+   - `ErrorMessage` is an alert box (`role="alert"`) with a title and text, shown when a request fails.
+   - `SessionCard` shows one session in a list: game, platform, status badge, players / slots, mic requirement, description, host and a button to its details page. `actionLabel` sets the button text ("View" by default, "Manage" in the Hosting list on My Sessions).
+   - `SessionForm` is the same form for Create and Edit. It only renders: values, errors and handlers come in as props from `useForm`, and `title` / `submitLabel` / `cancelTo` change between the two pages.
+   - `Spinner` is the loading indicator (`role="status"`) with an optional message. Pages and route guards show it while data or auth is loading.
+   - `StatusBadge` is the colored Open / Full / Closed pill. It gets the value from `getSessionStatus`.
 
 ## State management
 
@@ -264,7 +274,7 @@ auth.users ──1:1── profiles ──1:N── sessions ──1:N── com
 
 - **Open / Full status is calculated, not stored.** Only `is_closed` is saved. `getSessionStatus` compares the player count with `slots`, so the status can never get out of sync with the player list.
 - **The host is a normal player row.** Creating a session also inserts the host into `session_players`, so player counts and lists need no special case for the host.
-- **One request per page.** PostgREST embeds load related data in a single request (host username, player count, players and comments with their authors).
+- **Related data in one request.** PostgREST embeds load the host username, player count, players and comments together with the sessions, so a page doesn't make a separate request for each card or player. The only page with two requests is My Sessions (Hosting and Joined).
 - **Security is enforced in the database.** UI checks (hiding Edit/Delete, redirecting non-owners) are only for usability. RLS policies stop anyone from changing another user's data, even through the API directly.
 - **Abstractions only after repetition.** `useForm`, `useFetch`, `SessionForm` and `getSessionStatus` were extracted only once the same logic appeared in several places.
 
@@ -279,7 +289,7 @@ auth.users ──1:1── profiles ──1:N── sessions ──1:N── com
 **Application Category / Topic:** Community board / matchmaking board for gamers (a "Looking For Group" listing site)
 
 **Main Purpose:**
-Finding people to play with usually means posting in a Discord server and waiting. LFG Board gives players one place where they can host a session for a specific game and platform, say how many slots are open and whether a mic is needed, and let other players join in a click. Each session has a player list and a comment thread for coordinating, and the host can close the session once the group starts playing.
+LFG Board gives players one place where they can host a session for a specific game and platform, say how many slots are open and whether a mic is needed, and let other players join in a click. Each session has a player list and a comment thread for coordinating, and the host can close the session once the group has decided on where to talk and starts playing.
 
 ## 2. User Access & Permissions
 
@@ -359,15 +369,15 @@ The **My Sessions** page uses the same cards in two lists: sessions you **host**
 ### Details Page
 
 - **How navigation is triggered:** The card's button is a React Router `<Link>` to `/details/${session.id}`. After actions, `useNavigate` is used (e.g. after Delete → `/catalog`, after Edit → back to `/details/:id`).
-- **Data received via route parameters:** The session `id`. The page fetches that session together with its host, players (with usernames) and comments (with authors, oldest first). An id that doesn't exist - including a malformed one - redirects to `/404`.
+- **Data received via route parameters:** The session `id`. The page fetches that session together with its host, players (with usernames) and comments (with authors, oldest first). An id that doesn't exist, including a malformed one, redirects to `/404`.
 
 ## 6. Data Source & Backend
 
 ### Backend Type
 
-**Real backend - Supabase (Backend-as-a-Service):** a hosted Postgres database plus Supabase Auth.
+**Supabase (Backend-as-a-Service):** a hosted Postgres database plus Supabase Auth.
 
-- **Reads** go to Supabase's REST API (PostgREST) with `fetch`, through the custom `useFetch` hook.
+- **Reads** go to Supabase's REST API (PostgREST) with `fetch`, through the custom `useFetch` hook. The only exception is the username check on Register, which uses the SDK.
 - **Writes** (create, update, delete, join/leave, comments) and **auth** go through the `@supabase/supabase-js` SDK, which sends the user's access token.
 - **Tables:** `profiles`, `sessions`, `session_players` (who joined which session, the host included), `comments`. All foreign keys use `ON DELETE CASCADE`, so deleting a session also deletes its players and comments.
 - **Security:** Row Level Security is enabled on every table. Everyone can read; only the owner can insert/update/delete a session; users can only add/remove their own `session_players` and `comments` rows. This is the real protection - the UI checks only decide what to show.
@@ -387,7 +397,7 @@ The CRUD collection is **sessions**.
 - **Catalog:** all sessions with host username and player count.
 - **Details:** one session with host, players and comments.
 - **My Sessions:** two requests - sessions where `owner_id` is the user, and sessions the user has joined but doesn't host (`!inner` join on `session_players`).
-- **Edit:** the session plus its player count to prefill the form.
+- **Edit:** the session (to prefill the form) plus its player count (so slots can't be set lower than the players already joined).
 
 All of these use `useFetch`, which returns `data`, `isLoading`, `error` and `refetch`.
 
@@ -401,7 +411,7 @@ All of these use `useFetch`, which returns `data`, `isLoading`, `error` and `ref
 
 - **How the author deletes:** The owner clicks **Delete session** on the details page and confirms in a `confirm()` dialog. The SDK runs `delete().eq('id', id)`; players and comments are removed by the cascade.
 - **How the UI updates:** The user is redirected to `/catalog`, which loads the list without the deleted session. If the delete fails, the error is shown in the actions panel and the buttons are enabled again.
-- Leave session and deleting your own comment work the same way, followed by `refetch()` of the details page.
+- Leave session and deleting your own comment (which also asks for confirmation) work the same way, followed by `refetch()` of the details page.
 
 ## 8. Forms & Validation
 
@@ -463,7 +473,7 @@ Plain CSS files with BEM-style class names (e.g. `session-card__header`, `form__
   - Guests opening private routes are redirected to `/login`; logged-in users opening `/login` or `/register` are redirected to `/catalog`; a non-owner opening `/edit/:id` is redirected to the session's details.
 - **Network or data errors:**
   - `useFetch` checks `response.ok`; any failed request shows an `ErrorMessage` box instead of a blank page (Catalog, Details, Edit, My Sessions).
-  - Failed writes (join, leave, close, delete, create, edit, comment) show the error next to the action, and the buttons are enabled again so the user can retry.
+  - Failed writes show the error where the user acted: join / leave / close / delete in the actions panel, create / edit / posting a comment in a banner at the top of the form, deleting a comment above the comment list. The buttons are enabled again so the user can retry.
   - While a request is running, buttons are disabled and show progress text ("Joining…", "Deleting…", "Posting…"), so double clicks don't send duplicate requests.
   - Aborted requests (unmount / route change / React StrictMode's dev double-mount) are ignored rather than shown as errors.
 - **Empty or missing data states:**
