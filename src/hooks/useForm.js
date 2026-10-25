@@ -14,6 +14,13 @@ export default function useForm(initialValues, validate, onSubmit) {
         });
     }
 
+    // Back to the starting values with old errors cleared; onSubmit gets it to clear the form after a successful submit
+    const reset = () => {
+        setFormData(initialValues);
+        setFieldError(null);
+        setError(null);
+    }
+
     async function submitHandler(e) {
         e.preventDefault();
         setError(null);
@@ -28,7 +35,7 @@ export default function useForm(initialValues, validate, onSubmit) {
         }
 
         try {
-            const submitErrors = await onSubmit(formData, setFormData);
+            const submitErrors = await onSubmit(formData, reset);
 
             if (submitErrors) {
                 setFieldError(submitErrors);
@@ -40,5 +47,5 @@ export default function useForm(initialValues, validate, onSubmit) {
         }
     }
 
-    return { formData, setFormData, error, fieldError, isSubmitting, changeHandler, submitHandler };
+    return { formData, error, fieldError, isSubmitting, changeHandler, submitHandler };
 }

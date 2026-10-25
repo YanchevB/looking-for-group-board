@@ -14,7 +14,7 @@ export default function CommentForm({
     const { user } = useAuth();
 
     const { formData, error, fieldError, isSubmitting, changeHandler, submitHandler } =
-        useForm({ text: '' }, commentValidate, async ({ text }, setFormData) => {
+        useForm({ text: '' }, commentValidate, async ({ text }, reset) => {
             // user_id is filled in by the database (default auth.uid())
             const { error: postError } = await supabase
                 .from('comments')
@@ -22,7 +22,7 @@ export default function CommentForm({
 
             if (postError) throw postError;
 
-            setFormData({ text: '' });
+            reset();
             onPosted();
         });
 
