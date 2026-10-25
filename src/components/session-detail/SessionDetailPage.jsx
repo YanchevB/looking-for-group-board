@@ -19,7 +19,8 @@ export default function SessionDetailPage() {
     const navigate = useNavigate();
 
     const [actionError, setActionError] = useState(null);
-    const [isActing, setIsActing] = useState(false);
+    // Which action is running ('join' | 'leave' | 'close' | 'open' | 'delete'), or null
+    const [pendingAction, setPendingAction] = useState(null);
 
     // Comments keep their own error/pending state so they don't show up in (or disable) the action area
     const [commentError, setCommentError] = useState(null);
@@ -36,7 +37,7 @@ export default function SessionDetailPage() {
     const [prevData, setPrevData] = useState(data);
     if (data !== prevData) {
         setPrevData(data);
-        setIsActing(false);
+        setPendingAction(null);
         setDeletingCommentId(null);
     }
 
@@ -54,7 +55,7 @@ export default function SessionDetailPage() {
         }
 
         setActionError(null);
-        setIsActing(true);
+        setPendingAction('delete');
 
         try {
             const { error: deleteError } = await supabase
@@ -67,14 +68,14 @@ export default function SessionDetailPage() {
             navigate('/catalog');
         } catch (error) {
             setActionError(error.message);
-            setIsActing(false);
+            setPendingAction(null);
         }
     }
 
     // Shared flow for actions that stay on the page: clear the old error, disable the buttons, refetch on success
-    const runAction = async (request) => {
+    const runAction = async (action, request) => {
         setActionError(null);
-        setIsActing(true);
+        setPendingAction(action);
 
         try {
             const { error: requestError } = await request();
@@ -84,29 +85,29 @@ export default function SessionDetailPage() {
             refetch();
         } catch (error) {
             setActionError(error.message);
-            setIsActing(false);
+            setPendingAction(null);
         }
     }
 
-    const joinHandler = () => runAction(() =>
+    const joinHandler = () => runAction('join', () =>
         supabase
             .from('session_players')
             .insert({ session_id: id }));
 
-    const leaveHandler = () => runAction(() =>
+    const leaveHandler = () => runAction('leave', () =>
         supabase
             .from('session_players')
             .delete()
             .eq('session_id', id)
             .eq('user_id', user.id));
 
-    const closeSessionHandler = () => runAction(() =>
+    const closeSessionHandler = () => runAction('close', () =>
         supabase
             .from('sessions')
             .update({ is_closed: true })
             .eq('id', session.id));
 
-    const openSessionHandler = () => runAction(() =>
+    const openSessionHandler = () => runAction('open', () =>
         supabase
             .from('sessions')
             .update({ is_closed: false })
@@ -165,13 +166,7 @@ export default function SessionDetailPage() {
                             </span>
                         </div>
                         <div className="session-details__body">
-                            <div
-                                style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    gap: "var(--space-6)"
-                                }}
-                            >
+                            <div className="session-details__main">
                                 <div className="session-details__section">
                                     <h2 className="session-details__section-title">Description</h2>
                                     <p className="session-details__description">
@@ -189,7 +184,7 @@ export default function SessionDetailPage() {
                                 isMember={isMember} 
                                 isFull={isFull} 
                                 error={actionError}
-                                isActing={isActing}
+                                pendingAction={pendingAction}
                                 onDelete={deleteHandler}
                                 onJoin={joinHandler}
                                 onLeave={leaveHandler}

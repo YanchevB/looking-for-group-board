@@ -9,7 +9,7 @@ export default function SessionActions({
     isMember,
     isFull,
     error,
-    isActing,
+    pendingAction,
     onDelete,
     onJoin,
     onLeave,
@@ -17,6 +17,8 @@ export default function SessionActions({
     onOpen
 }) {
     const { user } = useAuth();
+    // Any running action disables every button; only the clicked one shows progress text
+    const isActing = pendingAction !== null;
 
     // Order matters: each check assumes the ones above it didn't match
     if (isOwner) {
@@ -27,12 +29,12 @@ export default function SessionActions({
                 <div className="session-details__owner-actions">
                     <Button variant='secondary' size='block' to={`/edit/${session.id}`}>Edit session</Button>
                     <Button type='button' variant='secondary' size='block' onClick={session.is_closed ? onOpen : onClose} disabled={isActing}>
-                        {isActing
-                            ? (session.is_closed ? 'Reopening…' : 'Closing…')
-                            : (session.is_closed ? 'Reopen session' : 'Close session')}
+                        {pendingAction === 'close' ? 'Closing…'
+                            : pendingAction === 'open' ? 'Reopening…'
+                            : session.is_closed ? 'Reopen session' : 'Close session'}
                     </Button>
                     <Button type='button' variant='danger' size='block' onClick={onDelete} disabled={isActing}>
-                        {isActing ? 'Deleting…' : 'Delete session'}
+                        {pendingAction === 'delete' ? 'Deleting…' : 'Delete session'}
                     </Button>
                 </div>
             </aside>
@@ -56,11 +58,11 @@ export default function SessionActions({
             <aside className="session-details__actions surface">
                 <span className="session-details__actions-title">Your status</span>
                 {error && <ErrorMessage title="Couldn't leave session" text={error} />}
-                <p style={{ color: "var(--color-text-muted)", fontSize: "var(--fs-sm)" }}>
+                <p className="session-details__actions-text">
                     You're in this session. See you in the lobby!
                 </p>
                 <Button type='button' variant='danger' size='block' disabled={isActing} onClick={onLeave}>
-                    {isActing ? 'Leaving…' : 'Leave session'}
+                    {pendingAction === 'leave' ? 'Leaving…' : 'Leave session'}
                 </Button>
             </aside>
         );
@@ -94,11 +96,11 @@ export default function SessionActions({
         <aside className="session-details__actions surface">
             <span className="session-details__actions-title">Your status</span>
             {error && <ErrorMessage title="Couldn't join session" text={error} />}
-            <p style={{ color: "var(--color-text-muted)", fontSize: "var(--fs-sm)" }}>
+            <p className="session-details__actions-text">
                 There's still room in this session.
             </p>
             <Button type='button' size='block' disabled={isActing} onClick={onJoin}>
-                {isActing ? 'Joining…' : 'Join session'}
+                {pendingAction === 'join' ? 'Joining…' : 'Join session'}
             </Button>
         </aside>
     );
