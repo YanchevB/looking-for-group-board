@@ -158,7 +158,7 @@ export default function SessionDetailPage() {
                                 Hosted by: <span className="session-details__meta-value">{session.owner?.username}</span>
                             </span>
                             <span className="session-details__meta-item">
-                                Started:{" "}
+                                Created:
                                 <span className="session-details__meta-value">{timeAgo(session.created_at)}</span>
                             </span>
                         </div>
